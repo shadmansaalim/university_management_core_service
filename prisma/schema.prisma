@@ -14,7 +14,7 @@ datasource db {
 
 model AcademicSemester {
   id String @id @default(uuid())
-  year Int
+  year String
   title String
   code String
   startMonth String
@@ -33,7 +33,7 @@ model AcademicFaculty {
   updatedAt DateTime @updatedAt
   academicDepartments AcademicDepartment[]
   students Student[]
-    faculties Faculty[]
+  faculties Faculty[]
 
   @@map("academic_faculties")
 }
