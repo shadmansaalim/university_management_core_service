@@ -8,12 +8,22 @@ import { AcademicSemesterValidation } from './academicSemester.validation';
 const router = express.Router();
 
 // API Endpoints
-router.get('/', AcademicSemesterController.getAllFromDB);
+router.get('/:id', AcademicSemesterController.getSingleSemester);
+
+router.get('/', AcademicSemesterController.getAllSemesters);
 
 router.post(
-  '/',
+  '/create-academic-semester',
   validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
-  AcademicSemesterController.insertIntoDB
+  AcademicSemesterController.createSemester
 );
+
+router.patch(
+  '/:id',
+  validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodSchema),
+  AcademicSemesterController.updateSingleSemester
+);
+
+router.delete('/:id', AcademicSemesterController.deleteSingleSemester);
 
 export const AcademicSemesterRoutes = router;

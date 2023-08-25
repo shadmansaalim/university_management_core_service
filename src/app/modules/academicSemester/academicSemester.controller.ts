@@ -9,11 +9,11 @@ import sendResponse from '../../../shared/sendResponse';
 import { AcademicSemesterConstants } from './academicSemester.constant';
 import { AcademicSemesterService } from './academicSemester.service';
 
-// Create Semester Controller Function
-const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
+// Function that works when create academic semester POST API hits
+const createSemester = catchAsync(async (req: Request, res: Response) => {
   // Destructuring Academic Semester data from request body
   const { ...academicSemesterData } = req.body;
-  const result = await AcademicSemesterService.insertIntoDB(
+  const result = await AcademicSemesterService.createSemester(
     academicSemesterData
   );
 
@@ -27,7 +27,7 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
 });
 
 // Function to GET All Academic Semesters
-const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
+const getAllSemesters = catchAsync(async (req: Request, res: Response) => {
   // Making a filter options object
   const filters = pick(req.query, AcademicSemesterConstants.filterableFields);
 
@@ -35,7 +35,7 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
   const paginationOptions = pick(req.query, PaginationConstants.fields);
 
   // Getting all semesters based on request
-  const result = await AcademicSemesterService.getAllFromDB(
+  const result = await AcademicSemesterService.getAllSemesters(
     filters,
     paginationOptions
   );
@@ -50,7 +50,62 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to GET Single Academic Semesters
+const getSingleSemester = catchAsync(async (req: Request, res: Response) => {
+  // Getting semester id from params
+  const id = req.params.id;
+  const result = await AcademicSemesterService.getSingleSemester(id);
+
+  // Sending API Response
+  sendResponse<AcademicSemester>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Single Academic Semester retrieved successfully.',
+    data: result,
+  });
+});
+
+// Function to update semester
+const updateSingleSemester = catchAsync(async (req: Request, res: Response) => {
+  // Getting semester id from params
+  const id = req.params.id;
+  // Getting updated data
+  const updatedData = req.body;
+
+  const result = await AcademicSemesterService.updateSingleSemester(
+    id,
+    updatedData
+  );
+
+  // Sending API Response
+  sendResponse<AcademicSemester>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Semester updated successfully.',
+    data: result,
+  });
+});
+
+// Function to delete semester
+const deleteSingleSemester = catchAsync(async (req: Request, res: Response) => {
+  // Getting semester id from params
+  const id = req.params.id;
+
+  const result = await AcademicSemesterService.deleteSingleSemester(id);
+
+  // Sending API Response
+  sendResponse<AcademicSemester>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Semester deleted successfully.',
+    data: result,
+  });
+});
+
 export const AcademicSemesterController = {
-  insertIntoDB,
-  getAllFromDB,
+  createSemester,
+  getAllSemesters,
+  getSingleSemester,
+  updateSingleSemester,
+  deleteSingleSemester,
 };
