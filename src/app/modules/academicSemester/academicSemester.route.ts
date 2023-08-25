@@ -8,6 +8,7 @@ import { AcademicSemesterValidation } from './academicSemester.validation';
 const router = express.Router();
 
 // API Endpoints
+router.get('/', AcademicSemesterController.getAllFromDB);
 
 router.post(
   '/',
