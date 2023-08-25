@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/errors/.962c12730e2f80c7d2e43b91fb28d437629f19d9-audit.json",
+    "files": [
+        {
+            "date": 1692951616617,
+            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/errors/UM-2023-25-08-14-error.log",
+            "hash": "439120cab462650ff83cbac901843d03be9f857f3abcc76d036c8c4451612a28"
+        }
+    ],
+    "hashType": "sha256"
+}
