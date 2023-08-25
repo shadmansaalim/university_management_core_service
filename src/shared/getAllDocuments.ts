@@ -1,16 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
+
 // Imports
-import { Model, SortOrder } from 'mongoose';
 import { PaginationHelpers } from '../helpers/paginationHelper';
 import { IDocumentFilters } from '../interfaces/common';
 import { IPaginationOptions } from '../interfaces/pagination';
 
-const getAllDocuments = async (
+// Define a type for the Prisma model
+type PrismaModel<T> = {
+  findMany: (params: any) => Promise<T[]>;
+  count: (params: any) => Promise<number>;
+};
+
+const getAllDocuments = async <T>(
   filters: IDocumentFilters,
   paginationOptions: IPaginationOptions,
   searchableFields: string[],
-  model: Model<any>,
-  fieldsToPopulate?: string[]
-) => {
+  model: PrismaModel<T>
+): Promise<{
+  page: number;
+  limit: number;
+  total: number;
+  result: T[];
+}> => {
   // Destructuring ~ Searching and Filtering
   const { searchTerm, ...filterData } = filters;
 
@@ -20,10 +32,10 @@ const getAllDocuments = async (
   // Checking if SEARCH is requested in GET API - adding find conditions
   if (searchTerm) {
     searchFilterConditions.push({
-      $or: searchableFields.map(field => ({
+      OR: searchableFields.map(field => ({
         [field]: {
-          $regex: searchTerm,
-          $options: 'i',
+          contains: searchTerm,
+          mode: 'insensitive',
         },
       })),
     });
@@ -32,18 +44,20 @@ const getAllDocuments = async (
   // Checking if FILTER is requested in GET API - adding find conditions
   if (Object.keys(filterData).length) {
     searchFilterConditions.push({
-      $and: Object.entries(filterData).map(([field, value]) => ({
-        [field]: value,
+      AND: Object.keys(filterData).map(key => ({
+        [key]: {
+          equals: (filterData as any)[key],
+        },
       })),
     });
   }
 
   // Destructuring ~ Pagination and Sorting
-  const { page, limit, sortBy, sortOrder, skip } =
+  const { page, limit, skip, sortBy, sortOrder } =
     PaginationHelpers.calculatePagination(paginationOptions);
 
   // Default Sorting Condition
-  const sortingCondition: { [key: string]: SortOrder } = {};
+  const sortingCondition: { [key: string]: any } = {};
 
   // Adding sort condition if requested
   if (sortBy && sortOrder) {
@@ -51,35 +65,20 @@ const getAllDocuments = async (
   }
 
   // Condition for finding documents
-  const findConditions = searchFilterConditions.length
-    ? { $and: searchFilterConditions }
+  const whereConditions = searchFilterConditions.length
+    ? { AND: searchFilterConditions }
     : {};
 
   // Documents
-  let result = await model
-    .find(findConditions)
-    .sort(sortingCondition)
-    .skip(skip)
-    .limit(limit);
-
-  // Checking if fields needs to be populated
-  if (fieldsToPopulate && fieldsToPopulate.length) {
-    const query = model
-      .find(findConditions)
-      .sort(sortingCondition)
-      .skip(skip)
-      .limit(limit);
-
-    // Populate the specified fields
-    fieldsToPopulate.forEach(field => {
-      query.populate(field);
-    });
-
-    result = await query.exec();
-  }
+  const result = await model.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: sortingCondition,
+  });
 
   // Total Documents in Database matching the condition
-  const total = await model.countDocuments(findConditions);
+  const total = await model.count({ where: whereConditions });
 
   return {
     page,
