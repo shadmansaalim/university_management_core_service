@@ -16,7 +16,8 @@ const getAllDocuments = async <T>(
   filters: IDocumentFilters,
   paginationOptions: IPaginationOptions,
   searchableFields: string[],
-  model: PrismaModel<T>
+  model: PrismaModel<T>,
+  fieldsToInclude?: string[]
 ): Promise<{
   page: number;
   limit: number;
@@ -69,13 +70,30 @@ const getAllDocuments = async <T>(
     ? { AND: searchFilterConditions }
     : {};
 
-  // Documents
-  const result = await model.findMany({
+  // Base Query object that stores the query
+  const baseQuery: any = {
     where: whereConditions,
     skip,
     take: limit,
     orderBy: sortingCondition,
-  });
+  };
+
+  // Checking if fields needs to be populated
+  if (fieldsToInclude && fieldsToInclude.length) {
+    // Object that stores the fields that needs to be included
+    const include: { [key: string]: boolean } = {};
+
+    // Adding fields in the include object that needs to be added
+    fieldsToInclude.forEach(field => {
+      include[field] = true;
+    });
+
+    // Adding the include property to the base query
+    baseQuery.include = include;
+  }
+
+  // Documents
+  const result = await model.findMany(baseQuery);
 
   // Total Documents in Database matching the condition
   const total = await model.count({ where: whereConditions });
