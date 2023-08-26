@@ -61,8 +61,44 @@ const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to update faculty
+const updateSingleFaculty = catchAsync(async (req: Request, res: Response) => {
+  // Getting faculty id from params
+  const id = req.params.id;
+  // Getting updated data
+  const updatedData = req.body;
+
+  const result = await FacultyService.updateSingleFaculty(id, updatedData);
+
+  // Sending API Response
+  sendResponse<Faculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Faculty updated successfully.',
+    data: result,
+  });
+});
+
+// Function to delete faculty
+const deleteSingleFaculty = catchAsync(async (req: Request, res: Response) => {
+  // Getting faculty id from params
+  const id = req.params.id;
+
+  const result = await FacultyService.deleteSingleFaculty(id);
+
+  // Sending API Response
+  sendResponse<Faculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Faculty deleted successfully.',
+    data: result,
+  });
+});
+
 export const FacultyController = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
+  updateSingleFaculty,
+  deleteSingleFaculty,
 };

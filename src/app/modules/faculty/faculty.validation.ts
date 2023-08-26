@@ -26,12 +26,12 @@ const createFacultyZodSchema = z.object({
     contactNo: z.string({
       required_error: 'Contact no is required',
     }),
-    gender: z
-      .enum([...DataConstants.gender] as [string, ...string[]])
-      .optional(),
-    bloodGroup: z
-      .enum([...DataConstants.bloodGroup] as [string, ...string[]])
-      .optional(),
+    gender: z.enum([...DataConstants.gender] as [string, ...string[]], {
+      required_error: 'Gender is required',
+    }),
+    bloodGroup: z.enum([...DataConstants.bloodGroup] as [string, ...string[]], {
+      required_error: 'Blood Group is required',
+    }),
     designation: z.string({
       required_error: 'Designation is required',
     }),
@@ -44,6 +44,29 @@ const createFacultyZodSchema = z.object({
   }),
 });
 
+// Validation of API request using ZOD while updating FACULTY
+const updateFacultyZodSchema = z.object({
+  body: z.object({
+    facultyId: z.string().optional(),
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    middleName: z.string().optional(),
+    profileImage: z.string().optional(),
+    email: z.string().optional(),
+    contactNo: z.string().optional(),
+    gender: z
+      .enum([...DataConstants.gender] as [string, ...string[]])
+      .optional(),
+    bloodGroup: z
+      .enum([...DataConstants.bloodGroup] as [string, ...string[]])
+      .optional(),
+    designation: z.string().optional(),
+    academicDepartmentId: z.string().optional(),
+    academicFacultyId: z.string().optional(),
+  }),
+});
+
 export const FacultyValidation = {
   createFacultyZodSchema,
+  updateFacultyZodSchema,
 };

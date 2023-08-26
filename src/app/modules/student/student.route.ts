@@ -18,4 +18,12 @@ router.post(
   StudentController.createStudent
 );
 
+router.patch(
+  '/:id',
+  validateRequest(StudentValidation.updateStudentZodSchema),
+  StudentController.updateSingleStudent
+);
+
+router.delete('/:id', StudentController.deleteSingleStudent);
+
 export const StudentRoutes = router;

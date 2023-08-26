@@ -61,8 +61,44 @@ const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to update student
+const updateSingleStudent = catchAsync(async (req: Request, res: Response) => {
+  // Getting student id from params
+  const id = req.params.id;
+  // Getting updated data
+  const updatedData = req.body;
+
+  const result = await StudentService.updateSingleStudent(id, updatedData);
+
+  // Sending API Response
+  sendResponse<Student>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student updated successfully.',
+    data: result,
+  });
+});
+
+// Function to delete student
+const deleteSingleStudent = catchAsync(async (req: Request, res: Response) => {
+  // Getting student id from params
+  const id = req.params.id;
+
+  const result = await StudentService.deleteSingleStudent(id);
+
+  // Sending API Response
+  sendResponse<Student>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student deleted successfully.',
+    data: result,
+  });
+});
+
 export const StudentController = {
   createStudent,
   getAllStudents,
   getSingleStudent,
+  updateSingleStudent,
+  deleteSingleStudent,
 };

@@ -57,8 +57,40 @@ const getSingleFaculty = async (id: string): Promise<Faculty | null> => {
   return result;
 };
 
+// Update Single Faculty Function
+const updateSingleFaculty = async (
+  id: string,
+  payload: Partial<Faculty>
+): Promise<Faculty | null> => {
+  // Updating faculty
+  const result = await prisma.faculty.update({
+    where: { id },
+    data: payload,
+    include: {
+      academicFaculty: true,
+      academicDepartment: true,
+    },
+  });
+  return result;
+};
+
+// Delete Single Faculty Function
+const deleteSingleFaculty = async (id: string): Promise<Faculty | null> => {
+  // Deleting Faculty
+  const result = await prisma.faculty.delete({
+    where: { id },
+    include: {
+      academicFaculty: true,
+      academicDepartment: true,
+    },
+  });
+  return result;
+};
+
 export const FacultyService = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
+  updateSingleFaculty,
+  deleteSingleFaculty,
 };

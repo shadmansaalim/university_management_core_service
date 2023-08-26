@@ -18,4 +18,12 @@ router.post(
   FacultyController.createFaculty
 );
 
+router.patch(
+  '/:id',
+  validateRequest(FacultyValidation.updateFacultyZodSchema),
+  FacultyController.updateSingleFaculty
+);
+
+router.delete('/:id', FacultyController.deleteSingleFaculty);
+
 export const FacultyRoutes = router;
