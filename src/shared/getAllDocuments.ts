@@ -3,7 +3,6 @@
 
 // Imports
 import { PaginationHelpers } from '../helpers/paginationHelper';
-import { IDocumentFilters } from '../interfaces/common';
 import { IPaginationOptions } from '../interfaces/pagination';
 
 // Define a type for the Prisma model
@@ -13,7 +12,7 @@ type PrismaModel<T> = {
 };
 
 const getAllDocuments = async <T>(
-  filters: IDocumentFilters,
+  filters: { [key: string]: any },
   paginationOptions: IPaginationOptions,
   searchableFields: string[],
   model: PrismaModel<T>,
