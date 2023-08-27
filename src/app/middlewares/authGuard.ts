@@ -4,7 +4,7 @@ import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 import config from '../../config';
 import ApiError from '../../errors/ApiError';
-import { JwtHelpers } from '../../helpers/jwtHelper';
+import { JwtHelpers } from '../../helpers/jwtHelpers';
 
 const authGuard =
   (...requiredRoles: string[]) =>

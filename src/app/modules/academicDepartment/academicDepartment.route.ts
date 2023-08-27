@@ -1,5 +1,7 @@
 // Imports
 import express from 'express';
+import { ENUM_USER_ROLES } from '../../../enums/user';
+import authGuard from '../../middlewares/authGuard';
 import validateRequest from '../../middlewares/validateRequest';
 import { AcademicDepartmentController } from './academicDepartment.controller';
 import { AcademicDepartmentValidation } from './academicDepartment.validation';
@@ -14,6 +16,7 @@ router.get('/', AcademicDepartmentController.getAllDepartments);
 
 router.post(
   '/create-academic-department',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   validateRequest(
     AcademicDepartmentValidation.createAcademicDepartmentZodSchema
   ),
@@ -22,12 +25,17 @@ router.post(
 
 router.patch(
   '/:id',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   validateRequest(
     AcademicDepartmentValidation.updateAcademicDepartmentZodSchema
   ),
   AcademicDepartmentController.updateSingleDepartment
 );
 
-router.delete('/:id', AcademicDepartmentController.deleteSingleDepartment);
+router.delete(
+  '/:id',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
+  AcademicDepartmentController.deleteSingleDepartment
+);
 
 export const AcademicDepartmentRoutes = router;
