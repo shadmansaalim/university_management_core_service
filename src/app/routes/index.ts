@@ -5,6 +5,7 @@ import { AcademicFacultyRoutes } from '../modules/academicFaculty/academicFacult
 import { AcademicSemesterRoutes } from '../modules/academicSemester/academicSemester.route';
 import { BuildingRoutes } from '../modules/building/building.route';
 import { FacultyRoutes } from '../modules/faculty/faculty.route';
+import { RoomRoutes } from '../modules/room/room.route';
 import { StudentRoutes } from '../modules/student/student.route';
 import { IModuleRoute } from './route.interface';
 
@@ -19,6 +20,7 @@ const moduleRoutes = [
   { path: '/academic-faculties', route: AcademicFacultyRoutes },
   { path: '/academic-departments', route: AcademicDepartmentRoutes },
   { path: '/buildings', route: BuildingRoutes },
+  { path: '/rooms', route: RoomRoutes },
 ];
 
 // Application Routes

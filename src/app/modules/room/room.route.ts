@@ -15,7 +15,7 @@ router.get('/:id', RoomController.getSingleRoom);
 router.get('/', RoomController.getAllRooms);
 
 router.post(
-  '/create-building',
+  '/create-room',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   validateRequest(RoomValidation.createRoomZodSchema),
   RoomController.createRoom
@@ -34,4 +34,4 @@ router.delete(
   RoomController.deleteSingleRoom
 );
 
-export const BuildingRoutes = router;
+export const RoomRoutes = router;
