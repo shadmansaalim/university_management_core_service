@@ -1,0 +1,5 @@
+Wed Aug 30 2023 13:12:48 [UM] error: 
+Invalid `prisma.courseToPrerequisite.create()` invocation:
+
+
+Transaction API error: Transaction already closed: Could not perform operation.
