@@ -2,8 +2,12 @@
 import { Course } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { PaginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { ICourseCreateData } from './course.interface';
+import { CourseConstants } from './course.constant';
+import { ICourseCreateData, ICourseFilters } from './course.interface';
 
 // Create Course Function
 const createCourse = async (
@@ -67,6 +71,156 @@ const createCourse = async (
   throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create course.');
 };
 
+// GET All Courses Function
+const getAllCourses = async (
+  filters: ICourseFilters,
+  paginationOptions: IPaginationOptions
+): Promise<IGenericResponse<Course[]>> => {
+  // Destructuring ~ Searching and Filtering
+  const { searchTerm, ...filterData } = filters;
+
+  // Storing all searching and filtering condition in this array
+  const searchFilterConditions = [];
+
+  // Checking if SEARCH is requested in GET API - adding find conditions
+  if (searchTerm) {
+    searchFilterConditions.push({
+      OR: CourseConstants.searchableFields.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  // Checking if FILTER is requested in GET API - adding find conditions
+  if (Object.keys(filterData).length) {
+    searchFilterConditions.push({
+      AND: Object.keys(filterData).map(key => ({
+        [key]: {
+          equals: (filterData as any)[key],
+        },
+      })),
+    });
+  }
+
+  // Destructuring ~ Pagination and Sorting
+  const { page, limit, skip, sortBy, sortOrder } =
+    PaginationHelpers.calculatePagination(paginationOptions);
+
+  // Default Sorting Condition
+  const sortingCondition: { [key: string]: any } = {};
+
+  // Adding sort condition if requested
+  if (sortBy && sortOrder) {
+    sortingCondition[sortBy] = sortOrder;
+  }
+
+  // Condition for finding courses
+  const whereConditions = searchFilterConditions.length
+    ? { AND: searchFilterConditions }
+    : {};
+
+  // Courses
+  const result = await prisma.course.findMany({
+    include: {
+      preRequisite: {
+        include: {
+          preRequisite: true,
+        },
+      },
+      preRequisiteFor: {
+        include: {
+          course: true,
+        },
+      },
+    },
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: sortingCondition,
+  });
+
+  // Total Courses in Database matching the condition
+  const total = await prisma.course.count({ where: whereConditions });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
+// GET Single Course Function
+const getSingleCourse = async (id: string): Promise<Course | null> => {
+  const result = await prisma.course.findUnique({
+    where: { id },
+    include: {
+      preRequisite: {
+        include: {
+          preRequisite: true,
+        },
+      },
+      preRequisiteFor: {
+        include: {
+          course: true,
+        },
+      },
+    },
+  });
+  return result;
+};
+
+// Update Single Course Function
+// Will Add code here later for the update single course function
+
+// DELETE Single Course
+const deleteSingleCourse = async (id: string): Promise<Course | null> => {
+  return await prisma.$transaction(async transactionClient => {
+    // Deleting course from pre-requisites
+    const deletePrerequisites =
+      await transactionClient.courseToPrerequisite.deleteMany({
+        where: {
+          OR: [
+            {
+              courseId: id,
+            },
+            {
+              preRequisiteId: id,
+            },
+          ],
+        },
+      });
+
+    // Throwing error if fails to delete pre-requisites
+    if (!deletePrerequisites) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to delete course.');
+    }
+
+    // Deleting the course
+    const result = transactionClient.course.delete({
+      where: {
+        id,
+      },
+    });
+
+    // Throwing error if fails to delete course
+    if (!result) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to delete course.');
+    }
+
+    // Returning the result
+    return result;
+  });
+};
+
 export const CourseService = {
   createCourse,
+  getAllCourses,
+  getSingleCourse,
+  deleteSingleCourse,
 };
