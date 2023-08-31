@@ -21,6 +21,13 @@ router.post(
   CourseController.createCourse
 );
 
+router.patch(
+  '/:id',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
+  validateRequest(CourseValidation.updateCourseZodSchema),
+  CourseController.updateSingleCourse
+);
+
 router.delete(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),

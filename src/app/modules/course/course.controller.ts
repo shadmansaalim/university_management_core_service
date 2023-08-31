@@ -58,6 +58,24 @@ const getSingleCourse = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to update course
+const updateSingleCourse = catchAsync(async (req: Request, res: Response) => {
+  // Getting course id from params
+  const id = req.params.id;
+  // Getting updated data
+  const updatedData = req.body;
+
+  const result = await CourseService.updateSingleCourse(id, updatedData);
+
+  // Sending API Response
+  sendResponse<Course>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Course updated successfully.',
+    data: result,
+  });
+});
+
 // Function to delete course
 const deleteSingleCourse = catchAsync(async (req: Request, res: Response) => {
   // Getting course id from params
@@ -78,5 +96,6 @@ export const CourseController = {
   createCourse,
   getAllCourses,
   getSingleCourse,
+  updateSingleCourse,
   deleteSingleCourse,
 };

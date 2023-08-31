@@ -176,7 +176,93 @@ const getSingleCourse = async (id: string): Promise<Course | null> => {
 };
 
 // Update Single Course Function
-// Will Add code here later for the update single course function
+const updateSingleCourse = async (
+  id: string,
+  payload: Partial<ICourseCreateData>
+): Promise<Course | null> => {
+  // Destructuring
+  const { preRequisiteCourses, ...courseData } = payload;
+
+  // Transaction and Rollback
+  await prisma.$transaction(async transactionClient => {
+    // Updating Course
+    const result = await transactionClient.course.update({
+      where: {
+        id,
+      },
+      data: courseData,
+    });
+
+    // Throwing error if fails to update course
+    if (!result) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to update course.');
+    }
+
+    // Checking if there are any pre-requisites for this course
+    if (preRequisiteCourses && preRequisiteCourses.length) {
+      // Storing the pre-requisite courses that needs to be deleted
+      const prerequisitesToDelete = preRequisiteCourses.filter(
+        preRequisiteCourse =>
+          preRequisiteCourse.courseId && preRequisiteCourse.isDeleted
+      );
+
+      // Storing new prerequisites
+      const newPrerequisites = preRequisiteCourses.filter(
+        preRequisiteCourse =>
+          preRequisiteCourse.courseId && !preRequisiteCourse.isDeleted
+      );
+
+      // Iterating and deleting prerequisites that needs to be removed
+      for (let index = 0; index < prerequisitesToDelete.length; index++) {
+        await transactionClient.courseToPrerequisite.deleteMany({
+          where: {
+            AND: [
+              {
+                courseId: id,
+              },
+              {
+                preRequisiteId: prerequisitesToDelete[index].courseId,
+              },
+            ],
+          },
+        });
+      }
+
+      // Iterating and adding new prerequisites that needs to be added
+      for (let index = 0; index < newPrerequisites.length; index++) {
+        await transactionClient.courseToPrerequisite.create({
+          data: {
+            courseId: id,
+            preRequisiteId: newPrerequisites[index].courseId,
+          },
+        });
+      }
+    }
+
+    return result;
+  });
+
+  /*
+    This part of the code is added just to include the preRequisite and preRequisiteFor field with the updated course in the API response.
+  */
+  return await prisma.course.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      preRequisite: {
+        include: {
+          preRequisite: true,
+        },
+      },
+      preRequisiteFor: {
+        include: {
+          course: true,
+        },
+      },
+    },
+  });
+};
 
 // DELETE Single Course
 const deleteSingleCourse = async (id: string): Promise<Course | null> => {
@@ -222,5 +308,6 @@ export const CourseService = {
   createCourse,
   getAllCourses,
   getSingleCourse,
+  updateSingleCourse,
   deleteSingleCourse,
 };
