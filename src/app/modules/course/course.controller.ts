@@ -1,5 +1,5 @@
 // Imports
-import { Course } from '@prisma/client';
+import { Course, CourseFaculty } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { PaginationConstants } from '../../../constants/pagination';
@@ -92,10 +92,30 @@ const deleteSingleCourse = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to assign faculties to a course
+const assignFaculties = catchAsync(async (req: Request, res: Response) => {
+  // Getting course id from params
+  const id = req.params.id;
+
+  // Getting faculties that needs to be assigned
+  const faculties = req.body.faculties;
+
+  const result = await CourseService.assignFaculties(id, faculties);
+
+  // Sending API Response
+  sendResponse<CourseFaculty[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Faculties assigned successfully.',
+    data: result,
+  });
+});
+
 export const CourseController = {
   createCourse,
   getAllCourses,
   getSingleCourse,
   updateSingleCourse,
   deleteSingleCourse,
+  assignFaculties,
 };
