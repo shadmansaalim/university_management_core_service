@@ -98,15 +98,34 @@ const assignFaculties = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
   // Getting faculties that needs to be assigned
-  const faculties = req.body.faculties;
+  const facultiesToAssign = req.body.faculties;
 
-  const result = await CourseService.assignFaculties(id, faculties);
+  const result = await CourseService.assignFaculties(id, facultiesToAssign);
 
   // Sending API Response
   sendResponse<CourseFaculty[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Faculties assigned successfully.',
+    message: 'Course Faculties assigned successfully.',
+    data: result,
+  });
+});
+
+// Function to assign faculties to a course
+const removeFaculties = catchAsync(async (req: Request, res: Response) => {
+  // Getting course id from params
+  const id = req.params.id;
+
+  // Getting faculties that needs to be removed
+  const facultiesToRemove = req.body.faculties;
+
+  const result = await CourseService.removeFaculties(id, facultiesToRemove);
+
+  // Sending API Response
+  sendResponse<CourseFaculty[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Course Faculties removed successfully.',
     data: result,
   });
 });
@@ -118,4 +137,5 @@ export const CourseController = {
   updateSingleCourse,
   deleteSingleCourse,
   assignFaculties,
+  removeFaculties,
 };
