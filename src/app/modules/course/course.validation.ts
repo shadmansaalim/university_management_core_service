@@ -40,7 +40,17 @@ const updateCourseZodSchema = z.object({
   }),
 });
 
+// Validation of API request using ZOD while assigning/removing faculties
+const assignOrRemoveFacultiesZodSchema = z.object({
+  body: z.object({
+    faculties: z.array(z.string(), {
+      required_error: 'Faculties are required to assign/remove from course.',
+    }),
+  }),
+});
+
 export const CourseValidation = {
   createCourseZodSchema,
   updateCourseZodSchema,
+  assignOrRemoveFacultiesZodSchema,
 };

@@ -34,10 +34,15 @@ router.delete(
   FacultyController.deleteSingleFaculty
 );
 
-router.post('/:id/assign-courses', FacultyController.assignCoursesToFaculty);
+router.post(
+  '/:id/assign-courses',
+  validateRequest(FacultyValidation.assignOrRemoveCoursesZodSchema),
+  FacultyController.assignCoursesToFaculty
+);
 
 router.delete(
   '/:id/remove-courses',
+  validateRequest(FacultyValidation.assignOrRemoveCoursesZodSchema),
   FacultyController.removeCoursesFromFaculty
 );
 
