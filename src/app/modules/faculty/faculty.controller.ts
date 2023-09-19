@@ -1,5 +1,5 @@
 // Imports
-import { Faculty } from '@prisma/client';
+import { CourseFaculty, Faculty } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { PaginationConstants } from '../../../constants/pagination';
@@ -95,10 +95,60 @@ const deleteSingleFaculty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to assign courses to a faculty
+const assignCoursesToFaculty = catchAsync(
+  async (req: Request, res: Response) => {
+    // Getting faculty id from params
+    const id = req.params.id;
+
+    // Getting courses that needs to be assigned
+    const coursesToAssign = req.body.courses;
+
+    const result = await FacultyService.assignCoursesToFaculty(
+      id,
+      coursesToAssign
+    );
+
+    // Sending API Response
+    sendResponse<CourseFaculty[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Courses assigned successfully to the Faculty.',
+      data: result,
+    });
+  }
+);
+
+// Function to remove courses from a faculty
+const removeCoursesFromFaculty = catchAsync(
+  async (req: Request, res: Response) => {
+    // Getting faculty id from params
+    const id = req.params.id;
+
+    // Getting courses that needs to be removed
+    const coursesToRemove = req.body.courses;
+
+    const result = await FacultyService.removeCoursesFromFaculty(
+      id,
+      coursesToRemove
+    );
+
+    // Sending API Response
+    sendResponse<CourseFaculty[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Courses removed successfully from Faculty.',
+      data: result,
+    });
+  }
+);
+
 export const FacultyController = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
   updateSingleFaculty,
   deleteSingleFaculty,
+  assignCoursesToFaculty,
+  removeCoursesFromFaculty,
 };

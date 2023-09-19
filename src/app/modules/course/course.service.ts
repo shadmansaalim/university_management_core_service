@@ -318,7 +318,7 @@ const deleteSingleCourse = async (id: string): Promise<Course | null> => {
 };
 
 // Assign faculties to a course function
-const assignFaculties = async (
+const assignFacultiesToCourse = async (
   id: string,
   payload: string[]
 ): Promise<CourseFaculty[]> => {
@@ -340,7 +340,7 @@ const assignFaculties = async (
 };
 
 // Remove faculties from a course function
-const removeFaculties = async (
+const removeFacultiesFromCourse = async (
   id: string,
   payload: string[]
 ): Promise<CourseFaculty[] | null> => {
@@ -369,6 +369,6 @@ export const CourseService = {
   getSingleCourse,
   updateSingleCourse,
   deleteSingleCourse,
-  assignFaculties,
-  removeFaculties,
+  assignFacultiesToCourse,
+  removeFacultiesFromCourse,
 };

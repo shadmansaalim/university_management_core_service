@@ -37,9 +37,13 @@ router.delete(
 router.post(
   '/:id/assign-faculties',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  CourseController.assignFaculties
+  CourseController.assignFacultiesToCourse
 );
 
-router.delete('/:id/remove-faculties', CourseController.removeFaculties);
+router.delete(
+  '/:id/remove-faculties',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
+  CourseController.removeFacultiesFromCourse
+);
 
 export const CourseRoutes = router;

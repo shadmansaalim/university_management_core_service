@@ -93,42 +93,52 @@ const deleteSingleCourse = catchAsync(async (req: Request, res: Response) => {
 });
 
 // Function to assign faculties to a course
-const assignFaculties = catchAsync(async (req: Request, res: Response) => {
-  // Getting course id from params
-  const id = req.params.id;
+const assignFacultiesToCourse = catchAsync(
+  async (req: Request, res: Response) => {
+    // Getting course id from params
+    const id = req.params.id;
 
-  // Getting faculties that needs to be assigned
-  const facultiesToAssign = req.body.faculties;
+    // Getting faculties that needs to be assigned
+    const facultiesToAssign = req.body.faculties;
 
-  const result = await CourseService.assignFaculties(id, facultiesToAssign);
+    const result = await CourseService.assignFacultiesToCourse(
+      id,
+      facultiesToAssign
+    );
 
-  // Sending API Response
-  sendResponse<CourseFaculty[]>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Course Faculties assigned successfully.',
-    data: result,
-  });
-});
+    // Sending API Response
+    sendResponse<CourseFaculty[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Faculties assigned successfully to the course.',
+      data: result,
+    });
+  }
+);
 
-// Function to assign faculties to a course
-const removeFaculties = catchAsync(async (req: Request, res: Response) => {
-  // Getting course id from params
-  const id = req.params.id;
+// Function to remove faculties from a course
+const removeFacultiesFromCourse = catchAsync(
+  async (req: Request, res: Response) => {
+    // Getting course id from params
+    const id = req.params.id;
 
-  // Getting faculties that needs to be removed
-  const facultiesToRemove = req.body.faculties;
+    // Getting faculties that needs to be removed
+    const facultiesToRemove = req.body.faculties;
 
-  const result = await CourseService.removeFaculties(id, facultiesToRemove);
+    const result = await CourseService.removeFacultiesFromCourse(
+      id,
+      facultiesToRemove
+    );
 
-  // Sending API Response
-  sendResponse<CourseFaculty[]>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Course Faculties removed successfully.',
-    data: result,
-  });
-});
+    // Sending API Response
+    sendResponse<CourseFaculty[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Faculties removed successfully from the course.',
+      data: result,
+    });
+  }
+);
 
 export const CourseController = {
   createCourse,
@@ -136,6 +146,6 @@ export const CourseController = {
   getSingleCourse,
   updateSingleCourse,
   deleteSingleCourse,
-  assignFaculties,
-  removeFaculties,
+  assignFacultiesToCourse,
+  removeFacultiesFromCourse,
 };
