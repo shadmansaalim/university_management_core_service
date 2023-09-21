@@ -7,6 +7,7 @@ import { BuildingRoutes } from '../modules/building/building.route';
 import { CourseRoutes } from '../modules/course/course.route';
 import { FacultyRoutes } from '../modules/faculty/faculty.route';
 import { RoomRoutes } from '../modules/room/room.route';
+import { SemesterRegistrationRoutes } from '../modules/semesterRegistration/semesterRegistration.route';
 import { StudentRoutes } from '../modules/student/student.route';
 import { IModuleRoute } from './route.interface';
 
@@ -23,6 +24,7 @@ const moduleRoutes = [
   { path: '/buildings', route: BuildingRoutes },
   { path: '/rooms', route: RoomRoutes },
   { path: '/courses', route: CourseRoutes },
+  { path: '/semester-registrations', route: SemesterRegistrationRoutes },
 ];
 
 // Application Routes
