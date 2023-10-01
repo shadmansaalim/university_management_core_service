@@ -194,7 +194,7 @@ model OfferedCourse{
   course Course @relation(fields: [courseId], references: [id])
 
   academicDepartmentId String
-  acaedmicDepartment AcademicDepartment @relation(fields: [academicDepartmentId], references: [id])
+  academicDepartment AcademicDepartment @relation(fields: [academicDepartmentId], references: [id])
 
 
   semesterRegistrationId String
