@@ -74,6 +74,28 @@ const getSingleSemesterRegistration = catchAsync(
   }
 );
 
+// Function to update semester registration
+const updateSingleSemesterRegistration = catchAsync(
+  async (req: Request, res: Response) => {
+    // Getting semester registration id from params
+    const id = req.params.id;
+
+    const result =
+      await SemesterRegistrationService.updateSingleSemesterRegistration(
+        id,
+        req.body
+      );
+
+    // Sending API Response
+    sendResponse<SemesterRegistration>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester Registration updated successfully.',
+      data: result,
+    });
+  }
+);
+
 // Function to delete semester registration
 const deleteSingleSemesterRegistration = catchAsync(
   async (req: Request, res: Response) => {
@@ -97,5 +119,6 @@ export const SemesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
   getSingleSemesterRegistration,
+  updateSingleSemesterRegistration,
   deleteSingleSemesterRegistration,
 };

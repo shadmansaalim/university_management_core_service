@@ -82,6 +82,68 @@ const getSingleSemesterRegistration = async (
   });
 };
 
+// UPDATE Single Semester Registration
+const updateSingleSemesterRegistration = async (
+  id: string,
+  payload: Partial<SemesterRegistration>
+): Promise<SemesterRegistration> => {
+  // Finding semester registration
+  const exists = await prisma.semesterRegistration.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  // Checking whether semester registration exists or not
+  if (!exists) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Semester Registration');
+  }
+
+  // Enforcing rules to change semester registration status
+  if (
+    payload.status &&
+    exists.status === SemesterRegistrationStatus.UPCOMING &&
+    payload.status !== SemesterRegistrationStatus.ONGOING
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'You can only change semester registration status from UPCOMING to ONGOING.'
+    );
+  }
+
+  if (
+    payload.status &&
+    exists.status === SemesterRegistrationStatus.ONGOING &&
+    payload.status !== SemesterRegistrationStatus.ENDED
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'You can only change semester registration status from ONGOING to ENDED.'
+    );
+  }
+
+  if (
+    payload.status &&
+    exists.status === SemesterRegistrationStatus.ENDED &&
+    payload.status !== SemesterRegistrationStatus.ENDED
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'You can change the status of a semester registration which is already ENDED.'
+    );
+  }
+
+  return await prisma.semesterRegistration.update({
+    where: {
+      id,
+    },
+    include: {
+      academicSemester: true,
+    },
+    data: payload,
+  });
+};
+
 // DELETE Single Semester Registration
 const deleteSingleSemesterRegistration = async (
   id: string
@@ -100,5 +162,6 @@ export const SemesterRegistrationService = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
   getSingleSemesterRegistration,
+  updateSingleSemesterRegistration,
   deleteSingleSemesterRegistration,
 };
