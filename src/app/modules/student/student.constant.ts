@@ -29,8 +29,21 @@ const fieldsToInclude = [
   'academicFaculty',
 ];
 
+const relationalFields: string[] = [
+  'academicFacultyId',
+  'academicDepartmentId',
+  'academicSemesterId',
+];
+const relationalFieldsMapper: { [key: string]: string } = {
+  academicFacultyId: 'academicFaculty',
+  academicDepartmentId: 'academicDepartment',
+  academicSemesterId: 'academicSemester',
+};
+
 export const StudentConstants = {
   searchableFields,
   filterableFields,
   fieldsToInclude,
+  relationalFields,
+  relationalFieldsMapper,
 };

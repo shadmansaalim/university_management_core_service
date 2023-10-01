@@ -29,7 +29,9 @@ const getAllRooms = async (
     paginationOptions,
     RoomConstants.searchableFields,
     prisma.room,
-    RoomConstants.fieldsToInclude
+    RoomConstants.fieldsToInclude,
+    RoomConstants.relationalFields,
+    RoomConstants.relationalFieldsMapper
   );
 
   return {

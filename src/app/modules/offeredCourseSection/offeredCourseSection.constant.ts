@@ -1,16 +1,15 @@
-// Searchable fields to GET offered courses
+// Searchable fields to GET offered course sections
 const searchableFields: string[] = [];
 
 // Searching and Filtering Fields
 const filterableFields = [
   'searchTerm',
   'id',
+  'offeredCourseId',
   'semesterRegistrationId',
-  'courseId',
-  'academicDepartmentId',
 ];
 
-// Fields to populate in offered course data
+// Fields to populate in offered course sections data
 const fieldsToInclude = [
   'course',
   'academicDepartment',
@@ -18,20 +17,31 @@ const fieldsToInclude = [
 ];
 
 const relationalFields: string[] = [
+  'offeredCourseId',
   'semesterRegistrationId',
-  'courseId',
-  'academicDepartmentId',
 ];
-const relationalFieldsMapper: { [key: string]: string } = {
+const relationalFieldsMapper: {
+  [key: string]: string;
+} = {
+  offeredCourseId: 'offeredCourse',
   semesterRegistrationId: 'semesterRegistration',
-  courseId: 'course',
-  academicDepartmentId: 'academicDepartment',
 };
 
-export const OfferedCourseConstants = {
+const daysInWeek = [
+  'SATURDAY',
+  'SUNDAY',
+  'MONDAY',
+  'TUESDAY',
+  'WEDNESDAY',
+  'THURSDAY',
+  'FRIDAY',
+];
+
+export const OfferedCourseSectionConstants = {
   searchableFields,
   filterableFields,
   fieldsToInclude,
   relationalFields,
   relationalFieldsMapper,
+  daysInWeek,
 };

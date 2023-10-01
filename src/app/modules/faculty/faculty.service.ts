@@ -30,7 +30,9 @@ const getAllFaculties = async (
     paginationOptions,
     FacultyConstants.searchableFields,
     prisma.faculty,
-    FacultyConstants.fieldsToInclude
+    FacultyConstants.fieldsToInclude,
+    FacultyConstants.relationalFields,
+    FacultyConstants.relationalFieldsMapper
   );
 
   return {

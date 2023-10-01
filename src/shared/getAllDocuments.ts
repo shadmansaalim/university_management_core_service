@@ -16,7 +16,11 @@ const getAllDocuments = async <T>(
   paginationOptions: IPaginationOptions,
   searchableFields: string[],
   model: PrismaModel<T>,
-  fieldsToInclude?: string[]
+  fieldsToInclude?: string[],
+  relationalFields?: string[],
+  relationalFieldsMapper?: {
+    [key: string]: string;
+  }
 ): Promise<{
   page: number;
   limit: number;
@@ -44,11 +48,25 @@ const getAllDocuments = async <T>(
   // Checking if FILTER is requested in GET API - adding find conditions
   if (Object.keys(filterData).length) {
     searchFilterConditions.push({
-      AND: Object.keys(filterData).map(key => ({
-        [key]: {
-          equals: (filterData as any)[key],
-        },
-      })),
+      AND: Object.keys(filterData).map(key => {
+        if (relationalFields?.includes(key)) {
+          return {
+            [(
+              relationalFieldsMapper as {
+                [key: string]: string;
+              }
+            )[key]]: {
+              id: (filterData as any)[key],
+            },
+          };
+        } else {
+          return {
+            [key]: {
+              equals: (filterData as any)[key],
+            },
+          };
+        }
+      }),
     });
   }
 

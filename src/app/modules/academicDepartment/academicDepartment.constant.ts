@@ -7,8 +7,18 @@ const searchableFields = ['title'];
 // Fields to populate in academic department data
 const fieldsToInclude = ['academicFaculty'];
 
+const relationalFields: string[] = ['academicFacultyId'];
+
+const relationalFieldsMapper: {
+  [key: string]: string;
+} = {
+  academicFacultyId: 'academicFaculty',
+};
+
 export const AcademicDepartmentConstants = {
   filterableFields,
   searchableFields,
   fieldsToInclude,
+  relationalFields,
+  relationalFieldsMapper,
 };

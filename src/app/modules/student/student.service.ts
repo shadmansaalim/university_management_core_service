@@ -31,7 +31,9 @@ const getAllStudents = async (
     paginationOptions,
     StudentConstants.searchableFields,
     prisma.student,
-    StudentConstants.fieldsToInclude
+    StudentConstants.fieldsToInclude,
+    StudentConstants.relationalFields,
+    StudentConstants.relationalFieldsMapper
   );
 
   return {

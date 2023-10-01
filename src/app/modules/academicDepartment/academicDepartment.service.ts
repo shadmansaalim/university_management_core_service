@@ -32,7 +32,9 @@ const getAllDepartments = async (
       paginationOptions,
       AcademicDepartmentConstants.searchableFields,
       prisma.academicDepartment,
-      AcademicDepartmentConstants.fieldsToInclude
+      AcademicDepartmentConstants.fieldsToInclude,
+      AcademicDepartmentConstants.relationalFields,
+      AcademicDepartmentConstants.relationalFieldsMapper
     );
 
   return {

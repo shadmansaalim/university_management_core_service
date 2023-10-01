@@ -55,7 +55,9 @@ const getAllSemesterRegistrations = async (
       paginationOptions,
       SemesterRegistrationConstants.searchableFields,
       prisma.semesterRegistration,
-      SemesterRegistrationConstants.fieldsToInclude
+      SemesterRegistrationConstants.fieldsToInclude,
+      SemesterRegistrationConstants.relationalFields,
+      SemesterRegistrationConstants.relationalFieldsMapper
     );
 
   return {

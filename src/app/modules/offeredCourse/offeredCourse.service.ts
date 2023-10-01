@@ -61,7 +61,9 @@ const getAllOfferedCourses = async (
     paginationOptions,
     OfferedCourseConstants.searchableFields,
     prisma.offeredCourse,
-    OfferedCourseConstants.fieldsToInclude
+    OfferedCourseConstants.fieldsToInclude,
+    OfferedCourseConstants.relationalFields,
+    OfferedCourseConstants.relationalFieldsMapper
   );
 
   return {

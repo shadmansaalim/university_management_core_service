@@ -26,8 +26,20 @@ const filterableFields = [
 // Fields to populate in faculty data
 const fieldsToInclude = ['academicDepartment', 'academicFaculty'];
 
+const relationalFields: string[] = [
+  'academicFacultyId',
+  'academicDepartmentId',
+];
+
+const relationalFieldsMapper: { [key: string]: string } = {
+  academicFacultyId: 'academicFaculty',
+  academicDepartmentId: 'academicDepartment',
+};
+
 export const FacultyConstants = {
   searchableFields,
   filterableFields,
   fieldsToInclude,
+  relationalFields,
+  relationalFieldsMapper,
 };

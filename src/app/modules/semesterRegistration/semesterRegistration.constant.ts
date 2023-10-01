@@ -7,8 +7,8 @@ const filterableFields = ['searchTerm', 'id', 'academicSemesterId'];
 // Fields to populate in semester registration data
 const fieldsToInclude = ['academicSemester'];
 
-const semesterRegistrationRelationalFields: string[] = ['academicSemesterId'];
-const semesterRegistrationRelationalFieldsMapper: {
+const relationalFields: string[] = ['academicSemesterId'];
+const relationalFieldsMapper: {
   [key: string]: string;
 } = {
   academicSemesterId: 'academicSemester',
@@ -18,6 +18,6 @@ export const SemesterRegistrationConstants = {
   searchableFields,
   filterableFields,
   fieldsToInclude,
-  semesterRegistrationRelationalFields,
-  semesterRegistrationRelationalFieldsMapper,
+  relationalFields,
+  relationalFieldsMapper,
 };
