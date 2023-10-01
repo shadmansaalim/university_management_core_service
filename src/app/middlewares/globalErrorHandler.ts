@@ -6,7 +6,7 @@
 import { ErrorRequestHandler } from 'express';
 import httpStatus from 'http-status';
 import config from '../../config';
-import handleCastError from '../../errors/handleCastError';
+import handleClientError from '../../errors/handleClientError';
 import handleValidationError from '../../errors/handleValidationError';
 import handleZodError from '../../errors/handleZodError';
 import { IGenericErrorMessage } from '../../interfaces/error';
@@ -20,7 +20,7 @@ let errorMessages: Array<IGenericErrorMessage> = [];
 // Handling different type of errors
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const errorLists: Record<string, (error: any) => void> = {
-  ValidationError: function (error) {
+  PrismaClientValidationError: function (error) {
     const formattedError = handleValidationError(error);
     // Destructuring
     ({ statusCode, message, errorMessages } = formattedError);
@@ -35,8 +35,8 @@ const errorLists: Record<string, (error: any) => void> = {
     message = error?.message;
     errorMessages = error?.message ? [{ path: '', message: message }] : [];
   },
-  CastError: function (error) {
-    const formattedError = handleCastError(error);
+  PrismaClientKnownRequestError: function (error) {
+    const formattedError = handleClientError(error);
     // Destructuring
     ({ statusCode, message, errorMessages } = formattedError);
   },
