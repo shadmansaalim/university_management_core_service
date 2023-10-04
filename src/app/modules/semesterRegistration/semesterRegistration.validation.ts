@@ -3,7 +3,7 @@ import { SemesterRegistrationStatus } from '@prisma/client';
 import { z } from 'zod';
 
 // Validation of POST API request using ZOD
-const createSemesterRegZodSchema = z.object({
+const create = z.object({
   body: z.object({
     startDate: z.string({
       required_error: 'Start date is required',
@@ -24,7 +24,7 @@ const createSemesterRegZodSchema = z.object({
 });
 
 // Validation of PATCH API request using ZOD
-const updateSemesterRegZodSchema = z.object({
+const update = z.object({
   body: z.object({
     startDate: z.string().optional(),
     endDate: z.string().optional(),
@@ -41,6 +41,6 @@ const updateSemesterRegZodSchema = z.object({
 });
 
 export const SemesterRegistrationValidation = {
-  createSemesterRegZodSchema,
-  updateSemesterRegZodSchema,
+  create,
+  update,
 };

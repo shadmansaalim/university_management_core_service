@@ -15,16 +15,16 @@ router.get('/:id', StudentController.getSingleStudent);
 router.get('/', StudentController.getAllStudents);
 
 router.post(
-  '/create-student',
+  '/',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(StudentValidation.createStudentZodSchema),
+  validateRequest(StudentValidation.create),
   StudentController.createStudent
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(StudentValidation.updateStudentZodSchema),
+  validateRequest(StudentValidation.update),
   StudentController.updateSingleStudent
 );
 

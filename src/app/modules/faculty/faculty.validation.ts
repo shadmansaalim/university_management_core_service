@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { DataConstants } from '../../../constants/data';
 
 // Validation of API request using ZOD while creating FACULTY
-const createFacultyZodSchema = z.object({
+const create = z.object({
   body: z.object({
     facultyId: z.string({
       required_error: 'Faculty id is required',
@@ -45,7 +45,7 @@ const createFacultyZodSchema = z.object({
 });
 
 // Validation of API request using ZOD while updating FACULTY
-const updateFacultyZodSchema = z.object({
+const update = z.object({
   body: z.object({
     facultyId: z.string().optional(),
     firstName: z.string().optional(),
@@ -67,7 +67,7 @@ const updateFacultyZodSchema = z.object({
 });
 
 // Validation of API request using ZOD while assigning/removing courses
-const assignOrRemoveCoursesZodSchema = z.object({
+const assignOrRemoveCourses = z.object({
   body: z.object({
     courses: z.array(z.string(), {
       required_error: 'Courses are required to assign/remove from faculty.',
@@ -76,7 +76,7 @@ const assignOrRemoveCoursesZodSchema = z.object({
 });
 
 export const FacultyValidation = {
-  createFacultyZodSchema,
-  updateFacultyZodSchema,
-  assignOrRemoveCoursesZodSchema,
+  create,
+  update,
+  assignOrRemoveCourses,
 };

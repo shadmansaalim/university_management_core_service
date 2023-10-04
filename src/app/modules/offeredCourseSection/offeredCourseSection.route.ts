@@ -16,18 +16,14 @@ router.get(
 router.get('/', OfferedCourseSectionController.getAllOfferedCourseSections);
 
 router.post(
-  '/create-offered-course-section',
-  validateRequest(
-    OfferedCourseSectionValidation.createOfferedCourseSectionZodSchema
-  ),
+  '/',
+  validateRequest(OfferedCourseSectionValidation.create),
   OfferedCourseSectionController.createOfferedCourseSection
 );
 
 router.patch(
   '/:id',
-  validateRequest(
-    OfferedCourseSectionValidation.updateOfferedCourseSectionZodSchema
-  ),
+  validateRequest(OfferedCourseSectionValidation.update),
   OfferedCourseSectionController.updateSingleOfferedCourseSection
 );
 

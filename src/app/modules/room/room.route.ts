@@ -15,16 +15,16 @@ router.get('/:id', RoomController.getSingleRoom);
 router.get('/', RoomController.getAllRooms);
 
 router.post(
-  '/create-room',
+  '/',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(RoomValidation.createRoomZodSchema),
+  validateRequest(RoomValidation.create),
   RoomController.createRoom
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(RoomValidation.updateRoomZodSchema),
+  validateRequest(RoomValidation.update),
   RoomController.updateSingleRoom
 );
 

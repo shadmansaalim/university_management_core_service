@@ -15,15 +15,15 @@ router.get('/:id', OfferedCourseController.getSingleOfferedCourse);
 router.get('/', OfferedCourseController.getAllOfferedCourses);
 
 router.post(
-  '/create-offered-course',
-  validateRequest(OfferedCourseValidation.createOfferedCourseZodSchema),
+  '/',
+  validateRequest(OfferedCourseValidation.create),
   OfferedCourseController.createOfferedCourse
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(OfferedCourseValidation.updateOfferedCourseZodSchema),
+  validateRequest(OfferedCourseValidation.update),
   OfferedCourseController.updateSingleOfferedCourse
 );
 

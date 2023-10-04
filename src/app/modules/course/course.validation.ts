@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 // Validation of POST API request using ZOD
-const createCourseZodSchema = z.object({
+const create = z.object({
   body: z.object({
     title: z.string({
       required_error: 'Title is required',
@@ -24,7 +24,7 @@ const createCourseZodSchema = z.object({
 });
 
 // Validation of PATCH API request using ZOD
-const updateCourseZodSchema = z.object({
+const update = z.object({
   body: z.object({
     title: z.string().optional(),
     code: z.string().optional(),
@@ -41,7 +41,7 @@ const updateCourseZodSchema = z.object({
 });
 
 // Validation of API request using ZOD while assigning/removing faculties
-const assignOrRemoveFacultiesZodSchema = z.object({
+const assignOrRemoveFaculties = z.object({
   body: z.object({
     faculties: z.array(z.string(), {
       required_error: 'Faculties are required to assign/remove from course.',
@@ -50,7 +50,7 @@ const assignOrRemoveFacultiesZodSchema = z.object({
 });
 
 export const CourseValidation = {
-  createCourseZodSchema,
-  updateCourseZodSchema,
-  assignOrRemoveFacultiesZodSchema,
+  create,
+  update,
+  assignOrRemoveFaculties,
 };

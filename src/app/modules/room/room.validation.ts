@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 // Validation of POST API request using ZOD
-const createRoomZodSchema = z.object({
+const create = z.object({
   body: z.object({
     roomNumber: z.string({
       required_error: 'Room number is required',
@@ -17,7 +17,7 @@ const createRoomZodSchema = z.object({
 });
 
 // Validation of PATCH API request using ZOD
-const updateRoomZodSchema = z.object({
+const update = z.object({
   body: z.object({
     roomNumber: z.string().optional(),
     floor: z.string().optional(),
@@ -26,6 +26,6 @@ const updateRoomZodSchema = z.object({
 });
 
 export const RoomValidation = {
-  createRoomZodSchema,
-  updateRoomZodSchema,
+  create,
+  update,
 };

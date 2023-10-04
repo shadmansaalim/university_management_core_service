@@ -18,15 +18,15 @@ router.get(
 router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
 router.post(
-  '/create-semester-registration',
-  validateRequest(SemesterRegistrationValidation.createSemesterRegZodSchema),
+  '/',
+  validateRequest(SemesterRegistrationValidation.create),
   SemesterRegistrationController.createSemesterRegistration
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(SemesterRegistrationValidation.updateSemesterRegZodSchema),
+  validateRequest(SemesterRegistrationValidation.update),
   SemesterRegistrationController.updateSingleSemesterRegistration
 );
 

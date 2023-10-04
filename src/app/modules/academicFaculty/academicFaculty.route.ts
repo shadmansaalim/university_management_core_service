@@ -15,16 +15,16 @@ router.get('/:id', AcademicFacultyController.getSingleFaculty);
 router.get('/', AcademicFacultyController.getAllFaculties);
 
 router.post(
-  '/create-academic-faculty',
+  '/',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(AcademicFacultyValidation.createAcademicFacultyZodSchema),
+  validateRequest(AcademicFacultyValidation.create),
   AcademicFacultyController.createFaculty
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(AcademicFacultyValidation.updateAcademicFacultyZodSchema),
+  validateRequest(AcademicFacultyValidation.update),
   AcademicFacultyController.updateSingleFaculty
 );
 

@@ -8,7 +8,7 @@ import {
 } from './academicSemester.interface';
 
 // Validation of POST API request using ZOD
-const createAcademicSemesterZodSchema = z.object({
+const create = z.object({
   body: z.object({
     title: z.enum(
       [...AcademicSemesterConstants.titles] as [
@@ -53,7 +53,7 @@ const createAcademicSemesterZodSchema = z.object({
 });
 
 // Validation of PATCH API request using ZOD
-const updateAcademicSemesterZodSchema = z
+const update = z
   .object({
     body: z.object({
       title: z
@@ -95,6 +95,6 @@ const updateAcademicSemesterZodSchema = z
   );
 
 export const AcademicSemesterValidation = {
-  createAcademicSemesterZodSchema,
-  updateAcademicSemesterZodSchema,
+  create,
+  update,
 };

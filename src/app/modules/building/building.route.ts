@@ -15,16 +15,16 @@ router.get('/:id', BuildingController.getSingleBuilding);
 router.get('/', BuildingController.getAllBuildings);
 
 router.post(
-  '/create-building',
+  '/',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(BuildingValidation.createBuildingZodSchema),
+  validateRequest(BuildingValidation.create),
   BuildingController.createBuilding
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(BuildingValidation.updateBuildingZodSchema),
+  validateRequest(BuildingValidation.update),
   BuildingController.updateSingleBuilding
 );
 

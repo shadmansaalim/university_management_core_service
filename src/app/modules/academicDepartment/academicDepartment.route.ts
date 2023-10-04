@@ -15,20 +15,16 @@ router.get('/:id', AcademicDepartmentController.getSingleDepartment);
 router.get('/', AcademicDepartmentController.getAllDepartments);
 
 router.post(
-  '/create-academic-department',
+  '/',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(
-    AcademicDepartmentValidation.createAcademicDepartmentZodSchema
-  ),
+  validateRequest(AcademicDepartmentValidation.create),
   AcademicDepartmentController.createDepartment
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(
-    AcademicDepartmentValidation.updateAcademicDepartmentZodSchema
-  ),
+  validateRequest(AcademicDepartmentValidation.update),
   AcademicDepartmentController.updateSingleDepartment
 );
 

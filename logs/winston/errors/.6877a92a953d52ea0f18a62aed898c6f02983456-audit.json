@@ -6,16 +6,6 @@
     "auditLog": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/.6877a92a953d52ea0f18a62aed898c6f02983456-audit.json",
     "files": [
         {
-            "date": 1695088865842,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-19-09-12-error.log",
-            "hash": "456dba8b0a521d9916c4ca00e7d77fea188dec0d980a3c319ab8765b1c0634d0"
-        },
-        {
-            "date": 1695092601149,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-19-09-13-error.log",
-            "hash": "bb70398b3edec2877f469cbe6af87801595f70ce9b26f18e57cab53b93fb2ab5"
-        },
-        {
             "date": 1695261586515,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-21-09-11-error.log",
             "hash": "46cd0d80ce0c4f5611cf370bd4229c6be8c6327363f030c38e1adbe83a79a7fc"
@@ -54,6 +44,16 @@
             "date": 1696155166345,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-01-10-21-error.log",
             "hash": "3370134f95852e4fc1079649b177a6742be24a2a54919561f974c36588903b13"
+        },
+        {
+            "date": 1696385764421,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-04-10-13-error.log",
+            "hash": "6ae7d60387982ba9bab9d128c1f08d7aee854bb8d612a6e12b17ef54119f28de"
+        },
+        {
+            "date": 1696388825837,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-04-10-14-error.log",
+            "hash": "b8e8cf75f211ba7b29cb229f0fa9e138cfcfe659cb0ef040dfc0c9b8837ebabd"
         }
     ],
     "hashType": "sha256"

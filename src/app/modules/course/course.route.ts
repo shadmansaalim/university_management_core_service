@@ -15,16 +15,16 @@ router.get('/:id', CourseController.getSingleCourse);
 router.get('/', CourseController.getAllCourses);
 
 router.post(
-  '/create-course',
+  '/',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(CourseValidation.createCourseZodSchema),
+  validateRequest(CourseValidation.create),
   CourseController.createCourse
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(CourseValidation.updateCourseZodSchema),
+  validateRequest(CourseValidation.update),
   CourseController.updateSingleCourse
 );
 
@@ -37,14 +37,14 @@ router.delete(
 router.post(
   '/:id/assign-faculties',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(CourseValidation.assignOrRemoveFacultiesZodSchema),
+  validateRequest(CourseValidation.assignOrRemoveFaculties),
   CourseController.assignFacultiesToCourse
 );
 
 router.delete(
   '/:id/remove-faculties',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(CourseValidation.assignOrRemoveFacultiesZodSchema),
+  validateRequest(CourseValidation.assignOrRemoveFaculties),
   CourseController.removeFacultiesFromCourse
 );
 

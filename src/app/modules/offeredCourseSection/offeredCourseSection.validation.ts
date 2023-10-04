@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 // Validation of POST API request using ZOD
-const createOfferedCourseSectionZodSchema = z.object({
+const create = z.object({
   body: z.object({
     offeredCourseId: z.string({
       required_error: 'Offered course id is required',
@@ -17,7 +17,7 @@ const createOfferedCourseSectionZodSchema = z.object({
 });
 
 // Validation of PATCH API request using ZOD
-const updateOfferedCourseSectionZodSchema = z.object({
+const update = z.object({
   body: z.object({
     maxCapacity: z.number().optional(),
     title: z.string().optional(),
@@ -25,6 +25,6 @@ const updateOfferedCourseSectionZodSchema = z.object({
 });
 
 export const OfferedCourseSectionValidation = {
-  createOfferedCourseSectionZodSchema,
-  updateOfferedCourseSectionZodSchema,
+  create,
+  update,
 };

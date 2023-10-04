@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { DataConstants } from '../../../constants/data';
 
 // Validation of API request using ZOD while creating STUDENT
-const createStudentZodSchema = z.object({
+const create = z.object({
   body: z.object({
     studentId: z.string({
       required_error: 'Student id is required',
@@ -47,7 +47,7 @@ const createStudentZodSchema = z.object({
 });
 
 // Validation of API request using ZOD while updating STUDENT
-const updateStudentZodSchema = z.object({
+const update = z.object({
   body: z.object({
     studentId: z.string().optional(),
     firstName: z.string().optional(),
@@ -69,6 +69,6 @@ const updateStudentZodSchema = z.object({
 });
 
 export const StudentValidation = {
-  createStudentZodSchema,
-  updateStudentZodSchema,
+  create,
+  update,
 };

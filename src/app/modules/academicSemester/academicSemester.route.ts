@@ -15,16 +15,16 @@ router.get('/:id', AcademicSemesterController.getSingleSemester);
 router.get('/', AcademicSemesterController.getAllSemesters);
 
 router.post(
-  '/create-academic-semester',
+  '/',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
+  validateRequest(AcademicSemesterValidation.create),
   AcademicSemesterController.createSemester
 );
 
 router.patch(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodSchema),
+  validateRequest(AcademicSemesterValidation.update),
   AcademicSemesterController.updateSingleSemester
 );
 
