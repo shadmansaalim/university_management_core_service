@@ -54,6 +54,11 @@
             "date": 1696388822724,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/successes/UM-2023-04-10-14-success.log",
             "hash": "aa892da77033634ac634b97662e5d0638829b124e6e3489be9eeb0e9f9231bcb"
+        },
+        {
+            "date": 1696408403482,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/successes/UM-2023-04-10-19-success.log",
+            "hash": "ead0a7d84a321b4ed2745e34bc17d6d8aeeca5149fd519651e2d34384c9197f4"
         }
     ],
     "hashType": "sha256"

@@ -44,7 +44,7 @@ const create = z
       return start < end;
     },
     {
-      message: 'Start time must be before end time',
+      message: 'Class schedule start time must be before end time.',
     }
   );
 
