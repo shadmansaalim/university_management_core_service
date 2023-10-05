@@ -1,9 +1,10 @@
 // Imports
 import {
+  Course,
+  OfferedCourse,
   SemesterRegistration,
   SemesterRegistrationStatus,
   StudentSemesterRegistration,
-  StudentSemesterRegistrationCourse,
 } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
@@ -250,7 +251,9 @@ const enrollIntoCourse = async (
     offeredCourseId: string;
     offeredCourseSectionId: string;
   }
-): Promise<StudentSemesterRegistrationCourse> => {
+): Promise<{
+  message: string;
+}> => {
   // Getting student data
   const studentData = await prisma.student.findFirst({
     where: {
@@ -283,6 +286,9 @@ const enrollIntoCourse = async (
     where: {
       id: payload.offeredCourseId,
     },
+    include: {
+      course: true,
+    },
   });
 
   // Throwing error if offered course doesn't exists
@@ -305,15 +311,95 @@ const enrollIntoCourse = async (
     );
   }
 
-  // Enrolling the student into course
-  return await prisma.studentSemesterRegistrationCourse.create({
-    data: {
-      studentId: studentData?.id,
-      semesterRegistrationId: semesterRegistrationData?.id,
-      offeredCourseId: payload.offeredCourseId,
-      offeredCourseSectionId: payload.offeredCourseSectionId,
-    },
+  // Throwing error if max capacity of the offered course section is fulfilled
+  if (
+    offeredCourseSection.maxCapacity &&
+    offeredCourseSection.currentlyEnrolledStudent &&
+    offeredCourseSection.currentlyEnrolledStudent >=
+      offeredCourseSection.maxCapacity
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Sorry, we couldn't enroll you into the course as the offered course section capacity is full already."
+    );
+  }
+
+  // Finding whether student has already registered semester registration
+  const isStudentAlreadyEnrolled =
+    await prisma.studentSemesterRegistrationCourse.findFirst({
+      where: {
+        student: {
+          id: studentData?.id,
+        },
+        semesterRegistration: {
+          id: semesterRegistrationData?.id,
+        },
+        offeredCourse: {
+          id: payload.offeredCourseId,
+        },
+        offeredCourseSection: {
+          id: payload.offeredCourseSectionId,
+        },
+      },
+    });
+
+  // Throwing error if student is already enrolled
+  if (isStudentAlreadyEnrolled) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Student has already enrolled into this course.'
+    );
+  }
+
+  // Using transaction for efficiency as multiple database operations going on
+  await prisma.$transaction(async transactionClient => {
+    // Enrolling the student into course
+    await transactionClient.studentSemesterRegistrationCourse.create({
+      data: {
+        studentId: studentData?.id,
+        semesterRegistrationId: semesterRegistrationData?.id,
+        offeredCourseId: payload.offeredCourseId,
+        offeredCourseSectionId: payload.offeredCourseSectionId,
+      },
+    });
+
+    // Incrementing enrolled students count in offered course section table as we enrolled new student into a course
+    await prisma.offeredCourseSection.update({
+      where: {
+        id: payload.offeredCourseSectionId,
+      },
+      data: {
+        currentlyEnrolledStudent: {
+          increment: 1,
+        },
+      },
+    });
+
+    // Updating student's total credits taken number in student semester registration table
+    await prisma.studentSemesterRegistration.updateMany({
+      where: {
+        student: {
+          id: studentData.id,
+        },
+        semesterRegistration: {
+          id: semesterRegistrationData.id,
+        },
+      },
+      data: {
+        totalCreditsTaken: {
+          increment: (
+            offeredCourse as OfferedCourse & {
+              course: Course;
+            }
+          ).course.credits,
+        },
+      },
+    });
   });
+
+  return {
+    message: 'Successfully enrolled into course.',
+  };
 };
 
 export const SemesterRegistrationService = {

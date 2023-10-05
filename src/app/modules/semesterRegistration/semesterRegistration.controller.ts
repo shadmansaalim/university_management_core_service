@@ -2,7 +2,6 @@
 import {
   SemesterRegistration,
   StudentSemesterRegistration,
-  StudentSemesterRegistrationCourse,
 } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
@@ -149,7 +148,9 @@ const enrollIntoCourse = catchAsync(async (req: Request, res: Response) => {
   );
 
   // Sending API Response
-  sendResponse<StudentSemesterRegistrationCourse>(res, {
+  sendResponse<{
+    message: string;
+  }>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: `Student (${user.id}) enrolled into course successfully.`,
