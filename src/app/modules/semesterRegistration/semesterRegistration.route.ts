@@ -18,12 +18,6 @@ router.get(
 router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
 router.post(
-  '/start-registration',
-  authGuard(ENUM_USER_ROLES.STUDENT),
-  SemesterRegistrationController.startMyRegistration
-);
-
-router.post(
   '/',
   validateRequest(SemesterRegistrationValidation.create),
   SemesterRegistrationController.createSemesterRegistration
@@ -40,6 +34,18 @@ router.delete(
   '/:id',
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   SemesterRegistrationController.deleteSingleSemesterRegistration
+);
+
+router.post(
+  '/start-registration',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  SemesterRegistrationController.startMyRegistration
+);
+
+router.post(
+  '/enroll-into-course',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  SemesterRegistrationController.enrollIntoCourse
 );
 
 export const SemesterRegistrationRoutes = router;

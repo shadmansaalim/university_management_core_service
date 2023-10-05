@@ -3,6 +3,7 @@ import {
   SemesterRegistration,
   SemesterRegistrationStatus,
   StudentSemesterRegistration,
+  StudentSemesterRegistrationCourse,
 } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
@@ -242,6 +243,79 @@ const startMyRegistration = async (
   };
 };
 
+// Function to enroll student into course
+const enrollIntoCourse = async (
+  authUserId: string,
+  payload: {
+    offeredCourseId: string;
+    offeredCourseSectionId: string;
+  }
+): Promise<StudentSemesterRegistrationCourse> => {
+  // Getting student data
+  const studentData = await prisma.student.findFirst({
+    where: {
+      studentId: authUserId,
+    },
+  });
+
+  // Throwing error if student data is not found
+  if (!studentData) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Student data not found.');
+  }
+
+  // Finding ONGOING or UPCOMING Semester Registration
+  const semesterRegistrationData = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: SemesterRegistrationStatus.ONGOING,
+    },
+  });
+
+  // Throwing error if no ONGOING Semester
+  if (!semesterRegistrationData) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'There is no ONGOING Semester Registration.'
+    );
+  }
+
+  // Finding the offered course
+  const offeredCourse = await prisma.offeredCourse.findFirst({
+    where: {
+      id: payload.offeredCourseId,
+    },
+  });
+
+  // Throwing error if offered course doesn't exists
+  if (!offeredCourse) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Offered course doesn't exist.");
+  }
+
+  // Finding the offered course section
+  const offeredCourseSection = await prisma.offeredCourseSection.findFirst({
+    where: {
+      id: payload.offeredCourseSectionId,
+    },
+  });
+
+  // Throwing error if offered course section doesn't exists
+  if (!offeredCourseSection) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      "Offered course section doesn't exist."
+    );
+  }
+
+  // Enrolling the student into course
+  return await prisma.studentSemesterRegistrationCourse.create({
+    data: {
+      studentId: studentData?.id,
+      semesterRegistrationId: semesterRegistrationData?.id,
+      offeredCourseId: payload.offeredCourseId,
+      offeredCourseSectionId: payload.offeredCourseSectionId,
+    },
+  });
+};
+
 export const SemesterRegistrationService = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -249,4 +323,5 @@ export const SemesterRegistrationService = {
   updateSingleSemesterRegistration,
   deleteSingleSemesterRegistration,
   startMyRegistration,
+  enrollIntoCourse,
 };
