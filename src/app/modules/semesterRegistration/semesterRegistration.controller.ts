@@ -1,5 +1,8 @@
 // Imports
-import { SemesterRegistration } from '@prisma/client';
+import {
+  SemesterRegistration,
+  StudentSemesterRegistration,
+} from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { PaginationConstants } from '../../../constants/pagination';
@@ -115,10 +118,30 @@ const deleteSingleSemesterRegistration = catchAsync(
   }
 );
 
+// Function to start student semester registration
+const startMyRegistration = catchAsync(async (req: Request, res: Response) => {
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  const result = await SemesterRegistrationService.startMyRegistration(user.id);
+
+  // Sending API Response
+  sendResponse<{
+    semesterRegistration: SemesterRegistration | null;
+    studentSemesterRegistration: StudentSemesterRegistration | null;
+  }>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `Student (${user.id}) semester registration started successfully.`,
+    data: result,
+  });
+});
+
 export const SemesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
   getSingleSemesterRegistration,
   updateSingleSemesterRegistration,
   deleteSingleSemesterRegistration,
+  startMyRegistration,
 };

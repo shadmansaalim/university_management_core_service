@@ -18,6 +18,12 @@ router.get(
 router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
 router.post(
+  '/start-registration',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  SemesterRegistrationController.startMyRegistration
+);
+
+router.post(
   '/',
   validateRequest(SemesterRegistrationValidation.create),
   SemesterRegistrationController.createSemesterRegistration

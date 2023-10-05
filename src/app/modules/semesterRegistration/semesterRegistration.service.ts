@@ -2,6 +2,7 @@
 import {
   SemesterRegistration,
   SemesterRegistrationStatus,
+  StudentSemesterRegistration,
 } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
@@ -160,10 +161,92 @@ const deleteSingleSemesterRegistration = async (
   });
 };
 
+// Function to start student semester registration
+const startMyRegistration = async (
+  authUserId: string
+): Promise<{
+  semesterRegistration: SemesterRegistration | null;
+  studentSemesterRegistration: StudentSemesterRegistration | null;
+}> => {
+  // Getting student data
+  const studentData = await prisma.student.findFirst({
+    where: {
+      studentId: authUserId,
+    },
+  });
+
+  // Throwing error if student data is not found
+  if (!studentData) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Student data not found.');
+  }
+
+  // Finding ONGOING or UPCOMING Semester Registration
+  const semesterRegistrationData = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: {
+        in: [
+          SemesterRegistrationStatus.ONGOING,
+          SemesterRegistrationStatus.UPCOMING,
+        ],
+      },
+    },
+  });
+
+  // Throwing error if student tries to register in UPCOMING semester registration
+  if (
+    semesterRegistrationData?.status === SemesterRegistrationStatus.UPCOMING
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Semester Registration has not started yet.'
+    );
+  }
+
+  // Finding whether student has already registered semester registration
+  let studentRegistration = await prisma.studentSemesterRegistration.findFirst({
+    where: {
+      student: {
+        id: studentData?.id,
+      },
+      semesterRegistration: {
+        id: semesterRegistrationData?.id,
+      },
+    },
+  });
+
+  // Checking whether student has registered previously or not
+  if (!studentRegistration) {
+    // Creating data in student semester registration to START student semester registration
+    studentRegistration = await prisma.studentSemesterRegistration.create({
+      data: {
+        student: {
+          connect: {
+            id: studentData?.id,
+          },
+        },
+        semesterRegistration: {
+          connect: {
+            id: semesterRegistrationData?.id,
+          },
+        },
+      },
+      include: {
+        student: true,
+      },
+    });
+  }
+
+  return {
+    semesterRegistration: semesterRegistrationData,
+    studentSemesterRegistration: studentRegistration,
+  };
+};
+
 export const SemesterRegistrationService = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
   getSingleSemesterRegistration,
   updateSingleSemesterRegistration,
   deleteSingleSemesterRegistration,
+  startMyRegistration,
 };
