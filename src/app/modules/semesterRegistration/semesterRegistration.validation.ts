@@ -40,7 +40,20 @@ const update = z.object({
   }),
 });
 
+// Validation for enrollment/withdrawal of course request using ZOD
+const enrollOrWithdrawCourse = z.object({
+  body: z.object({
+    offeredCourseId: z.string({
+      required_error: 'Offered course id is required',
+    }),
+    offeredCourseSectionId: z.string({
+      required_error: 'Offered course section id is required',
+    }),
+  }),
+});
+
 export const SemesterRegistrationValidation = {
   create,
   update,
+  enrollOrWithdrawCourse,
 };

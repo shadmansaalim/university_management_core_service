@@ -158,6 +158,27 @@ const enrollIntoCourse = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to enroll student into course
+const withdrawFromCourse = catchAsync(async (req: Request, res: Response) => {
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  const result = await SemesterRegistrationService.withdrawFromCourse(
+    user.id,
+    req.body
+  );
+
+  // Sending API Response
+  sendResponse<{
+    message: string;
+  }>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `Student (${user.id}) has been withdrawn from course successfully.`,
+    data: result,
+  });
+});
+
 export const SemesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -166,4 +187,5 @@ export const SemesterRegistrationController = {
   deleteSingleSemesterRegistration,
   startMyRegistration,
   enrollIntoCourse,
+  withdrawFromCourse,
 };
