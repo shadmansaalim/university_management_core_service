@@ -275,6 +275,124 @@ const withdrawFromCourse = async (
   );
 };
 
+// Function to confirm student registration
+const confirmMyRegistration = async (
+  authUserId: string
+): Promise<{
+  message: string;
+}> => {
+  // Finding ONGOING Semester Registration
+  const semesterRegistrationData = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: SemesterRegistrationStatus.ONGOING,
+    },
+  });
+
+  // Throwing error if no ONGOING Semester
+  if (!semesterRegistrationData) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'There is no ONGOING Semester Registration that you can CONFIRM.'
+    );
+  }
+
+  // Finding student semester registration data
+  const studentSemesterRegistrationData =
+    await prisma.studentSemesterRegistration.findFirst({
+      where: {
+        semesterRegistration: {
+          id: semesterRegistrationData?.id,
+        },
+        student: {
+          studentId: authUserId,
+        },
+      },
+    });
+
+  // Throwing error if student semester registration data is not found
+  if (!studentSemesterRegistrationData) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'You are not recognized by the system for this semester.'
+    );
+  }
+
+  // Throwing error if student has not taken any course this semester
+  if (studentSemesterRegistrationData.totalCreditsTaken === 0) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'You are not enrolled in any course for this semester registration so nothing to confirm.'
+    );
+  }
+
+  // Throwing error if student tries to take less/more credits than requirement
+  if (
+    studentSemesterRegistrationData.totalCreditsTaken &&
+    semesterRegistrationData?.minCredit &&
+    semesterRegistrationData?.maxCredit &&
+    (studentSemesterRegistrationData.totalCreditsTaken <
+      semesterRegistrationData?.minCredit ||
+      studentSemesterRegistrationData.totalCreditsTaken >
+        semesterRegistrationData?.maxCredit)
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `You can take only ${semesterRegistrationData.minCredit} to ${semesterRegistrationData.maxCredit} credits. You cannot neither reduce your study load nor overload it.`
+    );
+  }
+
+  // Confirming student semester registration
+  await prisma.studentSemesterRegistration.update({
+    where: {
+      id: studentSemesterRegistrationData.id,
+    },
+    data: {
+      isConfirmed: true,
+    },
+  });
+
+  return {
+    message:
+      'Your registration has been confirmed. Best of luck for your semester.',
+  };
+};
+
+// Function to get student registration data
+const getMyRegistration = async (
+  authUserId: string
+): Promise<{
+  semesterRegistrationData: SemesterRegistration | null;
+  studentSemesterRegistrationData: StudentSemesterRegistration | null;
+}> => {
+  // Finding ONGOING Semester Registration
+  const semesterRegistrationData = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: SemesterRegistrationStatus.ONGOING,
+    },
+    include: {
+      academicSemester: true,
+    },
+  });
+
+  // Finding student semester registration data
+  const studentSemesterRegistrationData =
+    await prisma.studentSemesterRegistration.findFirst({
+      where: {
+        semesterRegistration: {
+          id: semesterRegistrationData?.id,
+        },
+        student: {
+          studentId: authUserId,
+        },
+      },
+      include: {
+        student: true,
+      },
+    });
+
+  return { semesterRegistrationData, studentSemesterRegistrationData };
+};
+
 export const SemesterRegistrationService = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -284,4 +402,6 @@ export const SemesterRegistrationService = {
   startMyRegistration,
   enrollIntoCourse,
   withdrawFromCourse,
+  confirmMyRegistration,
+  getMyRegistration,
 };

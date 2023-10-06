@@ -179,6 +179,47 @@ const withdrawFromCourse = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to confirm student registration
+const confirmMyRegistration = catchAsync(
+  async (req: Request, res: Response) => {
+    // Getting authenticated user from request
+    const user = (req as any).user;
+
+    const result = await SemesterRegistrationService.confirmMyRegistration(
+      user.id
+    );
+
+    // Sending API Response
+    sendResponse<{
+      message: string;
+    }>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: `Student (${user.id}) semester registration has been confirmed successfully.`,
+      data: result,
+    });
+  }
+);
+
+// Function to get student registration data
+const getMyRegistration = catchAsync(async (req: Request, res: Response) => {
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  const result = await SemesterRegistrationService.getMyRegistration(user.id);
+
+  // Sending API Response
+  sendResponse<{
+    semesterRegistrationData: SemesterRegistration | null;
+    studentSemesterRegistrationData: StudentSemesterRegistration | null;
+  }>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `Student (${user.id}) semester registration data has been retrieved successfully.`,
+    data: result,
+  });
+});
+
 export const SemesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -188,4 +229,6 @@ export const SemesterRegistrationController = {
   startMyRegistration,
   enrollIntoCourse,
   withdrawFromCourse,
+  confirmMyRegistration,
+  getMyRegistration,
 };

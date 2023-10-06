@@ -30,7 +30,7 @@ const enrollIntoCourse = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Student data not found.');
   }
 
-  // Finding ONGOING or UPCOMING Semester Registration
+  // Finding ONGOING Semester Registration
   const semesterRegistrationData = await prisma.semesterRegistration.findFirst({
     where: {
       status: SemesterRegistrationStatus.ONGOING,
@@ -188,7 +188,7 @@ const withdrawFromCourse = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Student data not found.');
   }
 
-  // Finding ONGOING or UPCOMING Semester Registration
+  // Finding ONGOING Semester Registration
   const semesterRegistrationData = await prisma.semesterRegistration.findFirst({
     where: {
       status: SemesterRegistrationStatus.ONGOING,

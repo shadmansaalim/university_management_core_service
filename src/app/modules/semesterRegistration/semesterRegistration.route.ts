@@ -11,6 +11,12 @@ const router = express.Router();
 
 // API Endpoints
 router.get(
+  '/get-my-registration',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  SemesterRegistrationController.getMyRegistration
+);
+
+router.get(
   '/:id',
   SemesterRegistrationController.getSingleSemesterRegistration
 );
@@ -54,6 +60,12 @@ router.post(
   authGuard(ENUM_USER_ROLES.STUDENT),
   validateRequest(SemesterRegistrationValidation.enrollOrWithdrawCourse),
   SemesterRegistrationController.withdrawFromCourse
+);
+
+router.post(
+  '/confirm-my-registration',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  SemesterRegistrationController.confirmMyRegistration
 );
 
 export const SemesterRegistrationRoutes = router;
