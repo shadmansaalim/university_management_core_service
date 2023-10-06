@@ -7,7 +7,6 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 // Application Routes
 import routes from './app/routes';
 
-
 // Express App
 const app: Application = express();
 

@@ -104,6 +104,41 @@
             "date": 1696507513018,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-05-10-23-error.log",
             "hash": "f7b224463120b539e2779c93ba40a01b996306127f3f4ff542e9d279aa175b9d"
+        },
+        {
+            "date": 1696561822381,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-06-10-14-error.log",
+            "hash": "1602e340b92889de0e72eee91d89115ec31156a0b92dc52f4507cc1944497ee1"
+        },
+        {
+            "date": 1696565580617,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-06-10-15-error.log",
+            "hash": "e0aa702a47251c5c4ea4fe5ceef64ef53d8b8869807400dcbe507aa4b6014d2b"
+        },
+        {
+            "date": 1696568680036,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-06-10-16-error.log",
+            "hash": "e07dc2080d4c6493d726290ee26d436484fa8bcf536b3c2db1bf16e62b709f3e"
+        },
+        {
+            "date": 1696572062823,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-06-10-17-error.log",
+            "hash": "9c0f77c624530c8e31ca14263c567bdfa78086772d74f48486178ab5ddc31deb"
+        },
+        {
+            "date": 1696580307489,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-06-10-19-error.log",
+            "hash": "47b9be27318cc8b06726c89ba99835ba34d4ec7f81794f29a1cb88de402de1e7"
+        },
+        {
+            "date": 1696585782251,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-06-10-20-error.log",
+            "hash": "50c13460ab353b1106ab2e138e565a568b9d43a4373eaf7e7807c13864c79050"
+        },
+        {
+            "date": 1696586434730,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-06-10-21-error.log",
+            "hash": "773dc6690bf12922b3a326ca7796c3c7343a7c7e8a51e9e829c5c87a94c83977"
         }
     ],
     "hashType": "sha256"

@@ -1,50 +1,50 @@
 {
-    "keep": {
-        "days": true,
-        "amount": 14
+  "keep": {
+    "days": true,
+    "amount": 14
+  },
+  "auditLog": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/.5e9855e7e11dd8dbca98a9730a83c9aa4cd2c745-audit.json",
+  "files": [
+    {
+      "date": 1692951616616,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-14-success.log",
+      "hash": "2d4263a41d4e361fa60636e912d661918b768c2be98774a68ef90a9bcb385ffb"
     },
-    "auditLog": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/.5e9855e7e11dd8dbca98a9730a83c9aa4cd2c745-audit.json",
-    "files": [
-        {
-            "date": 1692951616616,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-14-success.log",
-            "hash": "2d4263a41d4e361fa60636e912d661918b768c2be98774a68ef90a9bcb385ffb"
-        },
-        {
-            "date": 1692954079757,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-15-success.log",
-            "hash": "e47546a19b8968b313b2fdea87378f7c32433d9272d705904e2d66280a710629"
-        },
-        {
-            "date": 1692957600128,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-16-success.log",
-            "hash": "a64860d774bcde9e183e1e5c8448aa71ce50f6c03a50127867f4618cacdc0a51"
-        },
-        {
-            "date": 1692974373759,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-20-success.log",
-            "hash": "0eff45abd27670864a63b4ceda5ddfc62c20a8658f4a8f8a82e841d21bbcc804"
-        },
-        {
-            "date": 1692975604083,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-21-success.log",
-            "hash": "c16a8c5c5843ffc7ea3e70eb3f28af369142e407981f8d6ab5167225b3c888e0"
-        },
-        {
-            "date": 1692979489757,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-22-success.log",
-            "hash": "50a7a3731e121511a7d783aea09e9aae2a33d269d652d70cf3c92272086c8665"
-        },
-        {
-            "date": 1692982801965,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-23-success.log",
-            "hash": "20bf62af15cd710fbd3e2190f8c06cc9958bb12e23e5602ca0fe5bef58b1a956"
-        },
-        {
-            "date": 1692991162443,
-            "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-26-08-01-success.log",
-            "hash": "a53a3cae9fb3015ca5394b89ab1131d6cf172640fcc34490b7ac8631aa82af21"
-        }
-    ],
-    "hashType": "sha256"
+    {
+      "date": 1692954079757,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-15-success.log",
+      "hash": "e47546a19b8968b313b2fdea87378f7c32433d9272d705904e2d66280a710629"
+    },
+    {
+      "date": 1692957600128,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-16-success.log",
+      "hash": "a64860d774bcde9e183e1e5c8448aa71ce50f6c03a50127867f4618cacdc0a51"
+    },
+    {
+      "date": 1692974373759,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-20-success.log",
+      "hash": "0eff45abd27670864a63b4ceda5ddfc62c20a8658f4a8f8a82e841d21bbcc804"
+    },
+    {
+      "date": 1692975604083,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-21-success.log",
+      "hash": "c16a8c5c5843ffc7ea3e70eb3f28af369142e407981f8d6ab5167225b3c888e0"
+    },
+    {
+      "date": 1692979489757,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-22-success.log",
+      "hash": "50a7a3731e121511a7d783aea09e9aae2a33d269d652d70cf3c92272086c8665"
+    },
+    {
+      "date": 1692982801965,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-25-08-23-success.log",
+      "hash": "20bf62af15cd710fbd3e2190f8c06cc9958bb12e23e5602ca0fe5bef58b1a956"
+    },
+    {
+      "date": 1692991162443,
+      "name": "/Users/saalimshadman/Desktop/university-management-core-service/logs/winston/successes/UM-2023-26-08-01-success.log",
+      "hash": "a53a3cae9fb3015ca5394b89ab1131d6cf172640fcc34490b7ac8631aa82af21"
+    }
+  ],
+  "hashType": "sha256"
 }

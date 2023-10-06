@@ -68,4 +68,10 @@ router.post(
   SemesterRegistrationController.confirmMyRegistration
 );
 
+router.post(
+  '/:id/start-new-semester',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
+  SemesterRegistrationController.startNewSemester
+);
+
 export const SemesterRegistrationRoutes = router;
