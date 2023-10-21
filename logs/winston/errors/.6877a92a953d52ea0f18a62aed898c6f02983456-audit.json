@@ -14,6 +14,11 @@
             "date": 1697886485497,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-21-10-22-error.log",
             "hash": "ddfbae47cb70b2940de833c72f4360bdb5a74c39bd9b723861890f337705818b"
+        },
+        {
+            "date": 1697889790331,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-21-10-23-error.log",
+            "hash": "01ba6221a54c18665cee926e97edeed70dd78a1876dfd21f4da26c6a5288f146"
         }
     ],
     "hashType": "sha256"

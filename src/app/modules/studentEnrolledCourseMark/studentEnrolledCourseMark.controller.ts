@@ -1,5 +1,9 @@
 // Imports
-import { StudentEnrolledCourseMark } from '@prisma/client';
+import {
+  Course,
+  StudentEnrolledCourse,
+  StudentEnrolledCourseMark,
+} from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { PaginationConstants } from '../../../constants/pagination';
@@ -54,7 +58,24 @@ const updateStudentMarks = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to evaluate student final gpa
+const evaluateStudentFinalGpa = catchAsync(
+  async (req: Request, res: Response) => {
+    const result =
+      await StudentEnrolledCourseMarkService.evaluateStudentFinalGpa(req.body);
+
+    // Sending API Response
+    sendResponse<(StudentEnrolledCourse & { course: Course })[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Student Final GPA evaluated successfully.',
+      data: result,
+    });
+  }
+);
+
 export const StudentEnrolledCourseMarkController = {
   getAllStudentEnrolledCourseMarks,
   updateStudentMarks,
+  evaluateStudentFinalGpa,
 };

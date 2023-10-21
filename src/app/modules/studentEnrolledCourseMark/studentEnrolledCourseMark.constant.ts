@@ -23,9 +23,15 @@ const relationalFieldsMapper: {
   studentEnrolledCourseId: 'studentEnrolledCourse',
 };
 
+const MarksWeight = {
+  midterm: 0.4,
+  final: 0.6,
+};
+
 export const StudentEnrolledCourseMarkConstants = {
   searchableFields,
   filterableFields,
   relationalFields,
   relationalFieldsMapper,
+  MarksWeight,
 };

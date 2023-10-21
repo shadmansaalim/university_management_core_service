@@ -20,4 +20,9 @@ router.patch(
   StudentEnrolledCourseMarkController.updateStudentMarks
 );
 
+router.patch(
+  '/evaluate-final-gpa',
+  StudentEnrolledCourseMarkController.evaluateStudentFinalGpa
+);
+
 export const StudentEnrolledCourseMarkRoutes = router;
