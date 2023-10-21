@@ -49,7 +49,7 @@ const updateStudentMarks = catchAsync(async (req: Request, res: Response) => {
   sendResponse<StudentEnrolledCourseMark>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student marks updated successfully.',
+    message: 'Student enrolled course marks updated successfully.',
     data: result,
   });
 });
