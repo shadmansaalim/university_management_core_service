@@ -1,5 +1,9 @@
 // Imports
-import { Student, StudentEnrolledCourse } from '@prisma/client';
+import {
+  Student,
+  StudentEnrolledCourse,
+  StudentSemesterRegistrationCourse,
+} from '@prisma/client';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import getAllDocuments from '../../../shared/getAllDocuments';
@@ -100,7 +104,7 @@ const getMyCourses = async (
     courseId?: string | undefined;
     academicSemesterId?: string | undefined;
   }
-): Promise<StudentEnrolledCourse[] | null> => {
+): Promise<StudentEnrolledCourse[]> => {
   if (!filter.academicSemesterId) {
     const currentSemester = await prisma.academicSemester.findFirst({
       where: {
@@ -123,6 +127,72 @@ const getMyCourses = async (
   });
 };
 
+// GET student course schedules
+const getMyCourseSchedules = async (
+  authUserId: string,
+  filter: {
+    courseId?: string | undefined;
+    academicSemesterId?: string | undefined;
+  }
+): Promise<StudentSemesterRegistrationCourse[]> => {
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  const studentEnrolledCourses = await getMyCourses(authUserId, filter);
+
+  const studentEnrolledCourseIds = studentEnrolledCourses.map(
+    item => item.courseId
+  );
+
+  const result = await prisma.studentSemesterRegistrationCourse.findMany({
+    where: {
+      student: {
+        studentId: authUserId,
+      },
+      semesterRegistration: {
+        academicSemester: {
+          id: filter.academicSemesterId,
+        },
+      },
+      offeredCourse: {
+        course: {
+          id: {
+            in: studentEnrolledCourseIds,
+          },
+        },
+      },
+    },
+    include: {
+      offeredCourse: {
+        include: {
+          course: true,
+        },
+      },
+      offeredCourseSection: {
+        include: {
+          offeredCourseClassSchedules: {
+            include: {
+              room: {
+                include: {
+                  building: true,
+                },
+              },
+              faculty: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return result;
+};
+
 export const StudentService = {
   createStudent,
   getAllStudents,
@@ -130,4 +200,5 @@ export const StudentService = {
   updateSingleStudent,
   deleteSingleStudent,
   getMyCourses,
+  getMyCourseSchedules,
 };

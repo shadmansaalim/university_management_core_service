@@ -1,5 +1,9 @@
 // Imports
-import { Student, StudentEnrolledCourse } from '@prisma/client';
+import {
+  Student,
+  StudentEnrolledCourse,
+  StudentSemesterRegistrationCourse,
+} from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { PaginationConstants } from '../../../constants/pagination';
@@ -114,6 +118,25 @@ const getMyCourses = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// GET student course schedules
+const getMyCourseSchedules = catchAsync(async (req: Request, res: Response) => {
+  // Making a filter options object
+  const filters = pick(req.query, StudentConstants.myCoursesFilterableFields);
+
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  const result = await StudentService.getMyCourseSchedules(user.id, filters);
+
+  // Sending API Response
+  sendResponse<StudentSemesterRegistrationCourse[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My courses retrieved successfully.',
+    data: result,
+  });
+});
+
 export const StudentController = {
   createStudent,
   getAllStudents,
@@ -121,4 +144,5 @@ export const StudentController = {
   updateSingleStudent,
   deleteSingleStudent,
   getMyCourses,
+  getMyCourseSchedules,
 };
