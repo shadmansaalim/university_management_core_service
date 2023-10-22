@@ -2,6 +2,7 @@
 import {
   Student,
   StudentEnrolledCourse,
+  StudentEnrolledCourseStatus,
   StudentSemesterRegistrationCourse,
 } from '@prisma/client';
 import { IGenericResponse } from '../../../interfaces/common';
@@ -10,6 +11,7 @@ import getAllDocuments from '../../../shared/getAllDocuments';
 import prisma from '../../../shared/prisma';
 import { StudentConstants } from './student.constant';
 import { IStudentFilters } from './student.interface';
+import { StudentUtils } from './student.util';
 
 // Function to create a student in database
 const createStudent = async (data: Student): Promise<Student> => {
@@ -193,6 +195,41 @@ const getMyCourseSchedules = async (
   return result;
 };
 
+// GET student academic info
+const getMyAcademicInfo = async (authUserId: string): Promise<any> => {
+  const academicInfo = await prisma.studentAcademicInfo.findFirst({
+    where: {
+      student: {
+        studentId: authUserId,
+      },
+    },
+  });
+
+  const enrolledCourses = await prisma.studentEnrolledCourse.findMany({
+    where: {
+      student: {
+        studentId: authUserId,
+      },
+      status: StudentEnrolledCourseStatus.COMPLETED,
+    },
+    include: {
+      course: true,
+      academicSemester: true,
+    },
+    orderBy: {
+      createdAt: 'asc',
+    },
+  });
+
+  const groupByAcademicSemesterData =
+    StudentUtils.groupByAcademicSemester(enrolledCourses);
+
+  return {
+    academicInfo,
+    courses: groupByAcademicSemesterData,
+  };
+};
+
 export const StudentService = {
   createStudent,
   getAllStudents,
@@ -201,4 +238,5 @@ export const StudentService = {
   deleteSingleStudent,
   getMyCourses,
   getMyCourseSchedules,
+  getMyAcademicInfo,
 };

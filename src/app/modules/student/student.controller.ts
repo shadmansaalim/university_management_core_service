@@ -137,6 +137,22 @@ const getMyCourseSchedules = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// GET student academic info
+const getMyAcademicInfo = catchAsync(async (req: Request, res: Response) => {
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  const result = await StudentService.getMyAcademicInfo(user.id);
+
+  // Sending API Response
+  sendResponse<StudentSemesterRegistrationCourse[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My academic information retrieved successfully.',
+    data: result,
+  });
+});
+
 export const StudentController = {
   createStudent,
   getAllStudents,
@@ -145,4 +161,5 @@ export const StudentController = {
   deleteSingleStudent,
   getMyCourses,
   getMyCourseSchedules,
+  getMyAcademicInfo,
 };

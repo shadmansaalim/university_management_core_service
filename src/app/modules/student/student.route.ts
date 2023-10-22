@@ -23,6 +23,12 @@ router.get(
   StudentController.getMyCourseSchedules
 );
 
+router.get(
+  '/my-academic-info',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  StudentController.getMyAcademicInfo
+);
+
 // API Endpoints
 router.get('/:id', StudentController.getSingleStudent);
 
