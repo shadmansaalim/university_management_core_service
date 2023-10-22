@@ -9,10 +9,16 @@ import { StudentValidation } from './student.validation';
 // Express router
 const router = express.Router();
 
+router.get('/', StudentController.getAllStudents);
+
+router.get(
+  '/my-courses',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  StudentController.getMyCourses
+);
+
 // API Endpoints
 router.get('/:id', StudentController.getSingleStudent);
-
-router.get('/', StudentController.getAllStudents);
 
 router.post(
   '/',

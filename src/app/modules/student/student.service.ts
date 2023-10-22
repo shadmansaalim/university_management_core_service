@@ -1,5 +1,5 @@
 // Imports
-import { Student } from '@prisma/client';
+import { Student, StudentEnrolledCourse } from '@prisma/client';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import getAllDocuments from '../../../shared/getAllDocuments';
@@ -93,10 +93,40 @@ const deleteSingleStudent = async (id: string): Promise<Student | null> => {
   return result;
 };
 
+const getMyCourses = async (
+  authUserId: string,
+  filter: {
+    courseId?: string | undefined;
+    academicSemesterId?: string | undefined;
+  }
+): Promise<StudentEnrolledCourse[] | null> => {
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  return await prisma.studentEnrolledCourse.findMany({
+    where: {
+      student: {
+        studentId: authUserId,
+      },
+      ...filter,
+    },
+    include: {
+      course: true,
+    },
+  });
+};
+
 export const StudentService = {
   createStudent,
   getAllStudents,
   getSingleStudent,
   updateSingleStudent,
   deleteSingleStudent,
+  getMyCourses,
 };
