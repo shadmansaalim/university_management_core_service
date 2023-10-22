@@ -143,6 +143,25 @@ const removeCoursesFromFaculty = catchAsync(
   }
 );
 
+// GET faculty courses which he/she will take
+const getMyCourses = catchAsync(async (req: Request, res: Response) => {
+  // Making a filter options object
+  const filters = pick(req.query, FacultyConstants.myCoursesFilterableFields);
+
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  const result = await FacultyService.getMyCourses(user, filters);
+
+  // Sending API Response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My courses retrieved successfully.',
+    data: result,
+  });
+});
+
 export const FacultyController = {
   createFaculty,
   getAllFaculties,
@@ -151,4 +170,5 @@ export const FacultyController = {
   deleteSingleFaculty,
   assignCoursesToFaculty,
   removeCoursesFromFaculty,
+  getMyCourses,
 };

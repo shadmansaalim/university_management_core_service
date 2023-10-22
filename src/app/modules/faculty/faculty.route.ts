@@ -10,9 +10,16 @@ import { FacultyValidation } from './faculty.validation';
 const router = express.Router();
 
 // API Endpoints
-router.get('/:id', FacultyController.getSingleFaculty);
 
 router.get('/', FacultyController.getAllFaculties);
+
+router.get(
+  '/my-courses',
+  authGuard(ENUM_USER_ROLES.FACULTY),
+  FacultyController.getMyCourses
+);
+
+router.get('/:id', FacultyController.getSingleFaculty);
 
 router.post(
   '/',

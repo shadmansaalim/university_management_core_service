@@ -93,6 +93,7 @@ const deleteSingleStudent = async (id: string): Promise<Student | null> => {
   return result;
 };
 
+// GET student courses which he/she will take
 const getMyCourses = async (
   authUserId: string,
   filter: {

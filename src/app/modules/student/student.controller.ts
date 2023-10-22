@@ -95,7 +95,7 @@ const deleteSingleStudent = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// Function to GET student courses
+// GET student courses which he/she will take
 const getMyCourses = catchAsync(async (req: Request, res: Response) => {
   // Making a filter options object
   const filters = pick(req.query, StudentConstants.myCoursesFilterableFields);
