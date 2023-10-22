@@ -17,11 +17,17 @@ router.get(
 );
 
 router.get(
-  '/:id',
-  SemesterRegistrationController.getSingleSemesterRegistration
+  '/get-my-semester-courses',
+  authGuard(ENUM_USER_ROLES.STUDENT),
+  SemesterRegistrationController.getMySemesterRegCourses
 );
 
 router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
+
+router.get(
+  '/:id',
+  SemesterRegistrationController.getSingleSemesterRegistration
+);
 
 router.post(
   '/',

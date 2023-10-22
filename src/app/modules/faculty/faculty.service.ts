@@ -138,10 +138,7 @@ const removeCoursesFromFaculty = async (
 // GET faculty courses which he/she will take
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const getMyCourses = async (
-  authUser: {
-    id: string;
-    role: string;
-  },
+  authUserId: string,
   filter: {
     academicSemesterId?: string | null | undefined;
     courseId?: string | null | undefined;
@@ -163,7 +160,7 @@ const getMyCourses = async (
       offeredCourseClassSchedules: {
         some: {
           faculty: {
-            facultyId: authUser.id,
+            facultyId: authUserId,
           },
         },
       },

@@ -151,7 +151,7 @@ const getMyCourses = catchAsync(async (req: Request, res: Response) => {
   // Getting authenticated user from request
   const user = (req as any).user;
 
-  const result = await FacultyService.getMyCourses(user, filters);
+  const result = await FacultyService.getMyCourses(user.id, filters);
 
   // Sending API Response
   sendResponse(res, {

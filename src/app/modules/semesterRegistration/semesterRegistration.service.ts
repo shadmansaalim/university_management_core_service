@@ -5,6 +5,7 @@ import {
   OfferedCourse,
   SemesterRegistration,
   SemesterRegistrationStatus,
+  StudentEnrolledCourseStatus,
   StudentSemesterRegistration,
   StudentSemesterRegistrationCourse,
 } from '@prisma/client';
@@ -21,6 +22,7 @@ import { StudentSemesterPaymentService } from '../studentSemesterPayment/student
 import { StudentSemesterRegistrationCourseService } from '../studentSemesterRegistrationCourse/studentSemesterRegistrationCourse.service';
 import { SemesterRegistrationConstants } from './semesterRegistration.constant';
 import { ISemesterRegistrationFilters } from './semesterRegistration.interface';
+import { SemesterRegistrationUtils } from './semesterRegistration.util';
 
 // Create Semester Registration Function
 const createSemesterRegistration = async (
@@ -581,6 +583,116 @@ const startNewSemester = async (
   };
 };
 
+// Function to get student semester registration courses that he is eligible to take
+const getMySemesterRegCourses = async (authUserId: string): Promise<void> => {
+  const studentData = await prisma.student.findFirst({
+    where: {
+      studentId: authUserId,
+    },
+  });
+
+  // Throwing error if student data not found
+  if (!studentData) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'Student does not exists in our system.'
+    );
+  }
+
+  const semesterRegistrationData = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: {
+        in: [
+          SemesterRegistrationStatus.UPCOMING,
+          SemesterRegistrationStatus.ONGOING,
+        ],
+      },
+    },
+    include: {
+      academicSemester: true,
+    },
+  });
+
+  // Throwing error if semester registration data not found
+  if (!semesterRegistrationData) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'There is no UPCOMING or ONGOING semester registration at the moment.'
+    );
+  }
+
+  // Finding the courses that student completed
+  const studentCompletedCourses = await prisma.studentEnrolledCourse.findMany({
+    where: {
+      status: StudentEnrolledCourseStatus.COMPLETED,
+      student: {
+        id: studentData?.id,
+      },
+    },
+    include: {
+      course: true,
+    },
+  });
+
+  const studentCurrentSemesterTakenCourses =
+    await prisma.studentSemesterRegistrationCourse.findMany({
+      where: {
+        student: {
+          id: studentData?.id,
+        },
+        semesterRegistration: {
+          id: semesterRegistrationData?.id,
+        },
+      },
+      include: {
+        offeredCourse: true,
+        offeredCourseSection: true,
+      },
+    });
+
+  const offeredCourses = await prisma.offeredCourse.findMany({
+    where: {
+      semesterRegistration: {
+        id: semesterRegistrationData.id,
+      },
+      academicDepartment: {
+        id: studentData?.academicDepartmentId,
+      },
+    },
+    include: {
+      course: {
+        include: {
+          preRequisite: {
+            include: {
+              preRequisite: true,
+            },
+          },
+        },
+      },
+      offeredCourseSections: {
+        include: {
+          offeredCourseClassSchedules: {
+            include: {
+              room: {
+                include: {
+                  building: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const availableCourses = SemesterRegistrationUtils.getAvailableCourses(
+    offeredCourses,
+    studentCompletedCourses,
+    studentCurrentSemesterTakenCourses
+  );
+  return availableCourses;
+};
+
 export const SemesterRegistrationService = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -593,4 +705,5 @@ export const SemesterRegistrationService = {
   confirmMyRegistration,
   getMyRegistration,
   startNewSemester,
+  getMySemesterRegCourses,
 };

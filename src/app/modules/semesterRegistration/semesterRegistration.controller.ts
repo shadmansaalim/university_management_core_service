@@ -237,6 +237,26 @@ const startNewSemester = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to get student semester registration courses
+const getMySemesterRegCourses = catchAsync(
+  async (req: Request, res: Response) => {
+    // Getting authenticated user from request
+    const user = (req as any).user;
+
+    const result = await SemesterRegistrationService.getMySemesterRegCourses(
+      user.id
+    );
+
+    // Sending API Response
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: `Student (${user.id}) available semester courses that can be enrolled has been retrieved successfully.`,
+      data: result,
+    });
+  }
+);
+
 export const SemesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -249,4 +269,5 @@ export const SemesterRegistrationController = {
   confirmMyRegistration,
   getMyRegistration,
   startNewSemester,
+  getMySemesterRegCourses,
 };
