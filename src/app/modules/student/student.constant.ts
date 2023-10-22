@@ -40,10 +40,13 @@ const relationalFieldsMapper: { [key: string]: string } = {
   academicSemesterId: 'academicSemester',
 };
 
+const myCoursesFilterableFields: string[] = ['courseId', 'academicSemesterId'];
+
 export const StudentConstants = {
   searchableFields,
   filterableFields,
   fieldsToInclude,
   relationalFields,
   relationalFieldsMapper,
+  myCoursesFilterableFields,
 };

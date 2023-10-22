@@ -98,7 +98,7 @@ const deleteSingleStudent = catchAsync(async (req: Request, res: Response) => {
 // Function to GET student courses
 const getMyCourses = catchAsync(async (req: Request, res: Response) => {
   // Making a filter options object
-  const filters = pick(req.query, ['courseId', 'academicSemesterId']);
+  const filters = pick(req.query, StudentConstants.myCoursesFilterableFields);
 
   // Getting authenticated user from request
   const user = (req as any).user;
