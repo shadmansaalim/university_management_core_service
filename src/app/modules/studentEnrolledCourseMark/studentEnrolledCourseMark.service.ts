@@ -361,9 +361,67 @@ const evaluateStudentFinalGpa = async (payload: {
   return grades as (StudentEnrolledCourse & { course: Course })[];
 };
 
+// Function to my course marks
+const getMyCourseMarks = async (
+  authUserId: string,
+  filters: IStudentEnrolledCourseMarkFilters,
+  paginationOptions: IPaginationOptions
+): Promise<IGenericResponse<StudentEnrolledCourseMark[]>> => {
+  const { limit, page } =
+    PaginationHelpers.calculatePagination(paginationOptions);
+
+  const student = await prisma.student.findFirst({
+    where: {
+      studentId: authUserId,
+    },
+  });
+
+  // Throwing error if student not found
+  if (!student) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'Student not found in our system.'
+    );
+  }
+
+  // Getting all course marks for this student
+  const marks = await prisma.studentEnrolledCourseMark.findMany({
+    where: {
+      student: {
+        id: student.id,
+      },
+      academicSemester: {
+        id: filters.academicSemesterId,
+      },
+      studentEnrolledCourse: {
+        course: {
+          id: filters.courseId,
+        },
+      },
+    },
+    include: {
+      studentEnrolledCourse: {
+        include: {
+          course: true,
+        },
+      },
+    },
+  });
+
+  return {
+    meta: {
+      total: marks.length,
+      page,
+      limit,
+    },
+    data: marks,
+  };
+};
+
 export const StudentEnrolledCourseMarkService = {
   createStudentEnrolledCourseDefaultMark,
   getAllStudentEnrolledCourseMarks,
   updateStudentMarks,
   evaluateStudentFinalGpa,
+  getMyCourseMarks,
 };

@@ -74,8 +74,40 @@ const evaluateStudentFinalGpa = catchAsync(
   }
 );
 
+// Function to my course marks as a student
+const getMyCourseMarks = catchAsync(async (req: Request, res: Response) => {
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  // Making a filter options object
+  const filters = pick(
+    req.query,
+    StudentEnrolledCourseMarkConstants.filterableFields
+  );
+
+  // Making a pagination options object
+  const paginationOptions = pick(req.query, PaginationConstants.fields);
+
+  // Getting all student enrolled course marks based on request
+  const result = await StudentEnrolledCourseMarkService.getMyCourseMarks(
+    user.id,
+    filters,
+    paginationOptions
+  );
+
+  // Sending API Response
+  sendResponse<StudentEnrolledCourseMark[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My course marks retrieved successfully.',
+    meta: result?.meta,
+    data: result?.data,
+  });
+});
+
 export const StudentEnrolledCourseMarkController = {
   getAllStudentEnrolledCourseMarks,
   updateStudentMarks,
   evaluateStudentFinalGpa,
+  getMyCourseMarks,
 };
