@@ -19,6 +19,12 @@ router.get(
   FacultyController.getMyCourses
 );
 
+router.get(
+  '/my-course-students',
+  authGuard(ENUM_USER_ROLES.FACULTY),
+  FacultyController.getMyCourseStudents
+);
+
 router.get('/:id', FacultyController.getSingleFaculty);
 
 router.post(

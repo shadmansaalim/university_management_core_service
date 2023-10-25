@@ -1,11 +1,22 @@
 // Imports
-import { CourseFaculty, Faculty } from '@prisma/client';
+import {
+  CourseFaculty,
+  Faculty,
+  OfferedCourseSection,
+  Student,
+} from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
+import { PaginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import getAllDocuments from '../../../shared/getAllDocuments';
 import prisma from '../../../shared/prisma';
 import { FacultyConstants } from './faculty.constant';
-import { IFacultyFilters } from './faculty.interface';
+import {
+  IFacultyFilters,
+  IFacultyMyCourseStudentsFilters,
+} from './faculty.interface';
 
 // Function to create a faculty in database
 const createFaculty = async (data: Faculty): Promise<Faculty> => {
@@ -222,6 +233,90 @@ const getMyCourses = async (
   return courseAndSchedule;
 };
 
+// Faculty GET his course students
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const getMyCourseStudents = async (
+  authUserId: string,
+  filter: IFacultyMyCourseStudentsFilters,
+  paginationOptions: IPaginationOptions
+) => {
+  // Finding the faculty that requested
+  const faculty = await prisma.faculty.findFirst({
+    where: {
+      facultyId: authUserId,
+    },
+  });
+
+  // Throwing error if faculty does not exists.
+  if (!faculty) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'Faculty requested does not exist in our system.'
+    );
+  }
+
+  const { limit, page, skip } =
+    PaginationHelpers.calculatePagination(paginationOptions);
+
+  if (!filter.academicSemesterId) {
+    const currentAcademicSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+
+    if (currentAcademicSemester) {
+      filter.academicSemesterId = currentAcademicSemester.id;
+    }
+  }
+
+  const offeredCourseSections =
+    await prisma.studentSemesterRegistrationCourse.findMany({
+      where: {
+        offeredCourse: {
+          course: {
+            id: filter.courseId,
+            faculties: {
+              some: {
+                facultyId: faculty.id,
+              },
+            },
+          },
+        },
+        offeredCourseSection: {
+          offeredCourse: {
+            semesterRegistration: {
+              academicSemester: {
+                id: filter.academicSemesterId,
+              },
+            },
+          },
+          id: filter.offeredCourseSectionId,
+        },
+      },
+      include: {
+        student: true,
+      },
+      take: limit,
+      skip,
+    });
+
+  const students = (
+    offeredCourseSections as unknown as (OfferedCourseSection & {
+      student: Student;
+    })[]
+  ).map(offeredCourseSection => offeredCourseSection.student);
+
+  return {
+    meta: {
+      total: offeredCourseSections.length,
+      page,
+      limit,
+    },
+    data: students,
+  };
+};
+
 export const FacultyService = {
   createFaculty,
   getAllFaculties,
@@ -231,4 +326,5 @@ export const FacultyService = {
   assignCoursesToFaculty,
   removeCoursesFromFaculty,
   getMyCourses,
+  getMyCourseStudents,
 };

@@ -162,6 +162,32 @@ const getMyCourses = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Faculty GET his course students
+const getMyCourseStudents = catchAsync(async (req: Request, res: Response) => {
+  // Making a filter options object
+  const filters = pick(req.query, FacultyConstants.myCoursesFilterableFields);
+
+  // Getting authenticated user from request
+  const user = (req as any).user;
+
+  // Making a pagination options object
+  const paginationOptions = pick(req.query, PaginationConstants.fields);
+
+  const result = await FacultyService.getMyCourseStudents(
+    user.id,
+    filters,
+    paginationOptions
+  );
+
+  // Sending API Response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My course students retrieved successfully.',
+    data: result,
+  });
+});
+
 export const FacultyController = {
   createFaculty,
   getAllFaculties,
@@ -171,4 +197,5 @@ export const FacultyController = {
   assignCoursesToFaculty,
   removeCoursesFromFaculty,
   getMyCourses,
+  getMyCourseStudents,
 };
