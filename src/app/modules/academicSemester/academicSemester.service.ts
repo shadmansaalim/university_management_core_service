@@ -6,6 +6,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import getAllDocuments from '../../../shared/getAllDocuments';
 import prisma from '../../../shared/prisma';
+import { RedisClient } from '../../../shared/redis';
 import { AcademicSemesterConstants } from './academicSemester.constant';
 import { IAcademicSemesterFilters } from './academicSemester.interface';
 
@@ -13,7 +14,23 @@ import { IAcademicSemesterFilters } from './academicSemester.interface';
 const createSemester = async (
   data: AcademicSemester
 ): Promise<AcademicSemester> => {
+  // Checking whether the format of data is following the relation consistency of Title and Code
+  if (data?.code !== AcademicSemesterConstants.titleCodeMapper[data?.title]) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Invalid Semester Code Provided'
+    );
+  }
   const result = await prisma.academicSemester.create({ data });
+
+  // Publishing data in redis
+  if (result) {
+    await RedisClient.publish(
+      AcademicSemesterConstants.event_academic_semester_created,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 

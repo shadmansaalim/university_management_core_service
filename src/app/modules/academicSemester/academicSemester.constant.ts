@@ -42,6 +42,9 @@ const filterableFields = ['searchTerm', 'title', 'year', 'code'];
 // Searchable fields to GET academic semesters
 const searchableFields = ['title', 'year', 'code'];
 
+// Event name of publishing academic semester created data in redis
+const event_academic_semester_created = 'academic-semester.created';
+
 export const AcademicSemesterConstants = {
   titles,
   codes,
@@ -49,4 +52,5 @@ export const AcademicSemesterConstants = {
   titleCodeMapper,
   filterableFields,
   searchableFields,
+  event_academic_semester_created,
 };
