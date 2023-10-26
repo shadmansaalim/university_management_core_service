@@ -19,7 +19,7 @@ const create = z.object({
         required_error: 'Title is required',
       }
     ),
-    year: z.string({
+    year: z.number({
       required_error: 'Year is required',
     }),
     code: z.enum(
@@ -62,7 +62,7 @@ const update = z
           ...IAcademicSemesterTitles[]
         ])
         .optional(),
-      year: z.string().optional(),
+      year: z.number().optional(),
       code: z
         .enum([...AcademicSemesterConstants.codes] as [
           IAcademicSemesterCodes,
