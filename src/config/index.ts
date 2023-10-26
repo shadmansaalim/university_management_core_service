@@ -16,4 +16,8 @@ export default {
     refresh_secret: process.env.JWT_REFRESH_SECRET,
     refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN,
   },
+  redis: {
+    url: process.env.REDIS_URL,
+    token_expires_in: process.env.REDIS_TOKEN_EXPIRES_IN,
+  },
 };

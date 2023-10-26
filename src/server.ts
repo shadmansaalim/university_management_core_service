@@ -3,9 +3,11 @@ import { Server } from 'http';
 import app from './app';
 import config from './config';
 import { errorLogger, logger } from './shared/logger';
+import { RedisClient } from './shared/redis';
 
 // Database connection
 async function bootstrap() {
+  await RedisClient.connect();
   // Server
   const server: Server = app.listen(config.port, () => {
     logger.info(`Server running on port ${config.port}`);
