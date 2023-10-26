@@ -45,6 +45,12 @@ const searchableFields = ['title', 'year', 'code'];
 // Event name of publishing academic semester created data in redis
 const event_academic_semester_created = 'academic-semester.created';
 
+// Event name of publishing academic semester updated data in redis
+const event_academic_semester_updated = 'academic-semester.updated';
+
+// Event name of publishing academic semester deleted data in redis
+const event_academic_semester_deleted = 'academic-semester.deleted';
+
 export const AcademicSemesterConstants = {
   titles,
   codes,
@@ -53,4 +59,6 @@ export const AcademicSemesterConstants = {
   filterableFields,
   searchableFields,
   event_academic_semester_created,
+  event_academic_semester_updated,
+  event_academic_semester_deleted,
 };

@@ -88,6 +88,15 @@ const updateSingleSemester = async (
     where: { id },
     data: payload,
   });
+
+  // Publishing data in redis
+  if (result) {
+    await RedisClient.publish(
+      AcademicSemesterConstants.event_academic_semester_updated,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 
@@ -99,6 +108,15 @@ const deleteSingleSemester = async (
   const result = await prisma.academicSemester.delete({
     where: { id },
   });
+
+  // Publishing data in redis
+  if (result) {
+    await RedisClient.publish(
+      AcademicSemesterConstants.event_academic_semester_deleted,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 
