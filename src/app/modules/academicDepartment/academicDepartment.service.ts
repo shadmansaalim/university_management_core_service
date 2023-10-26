@@ -4,6 +4,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import getAllDocuments from '../../../shared/getAllDocuments';
 import prisma from '../../../shared/prisma';
+import { RedisClient } from '../../../shared/redis';
 import { AcademicDepartmentConstants } from './academicDepartment.constant';
 import { IAcademicDepartmentFilters } from './academicDepartment.interface';
 
@@ -17,6 +18,15 @@ const createDepartment = async (
       academicFaculty: true,
     },
   });
+
+  // Publishing data in redis
+  if (result) {
+    await RedisClient.publish(
+      AcademicDepartmentConstants.event_academic_department_created,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 
@@ -59,6 +69,7 @@ const getSingleDepartment = async (
       academicFaculty: true,
     },
   });
+
   return result;
 };
 
@@ -76,6 +87,14 @@ const updateSingleDepartment = async (
     },
   });
 
+  // Publishing data in redis
+  if (result) {
+    await RedisClient.publish(
+      AcademicDepartmentConstants.event_academic_department_updated,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 
@@ -90,6 +109,15 @@ const deleteSingleDepartment = async (
       academicFaculty: true,
     },
   });
+
+  // Publishing data in redis
+  if (result) {
+    await RedisClient.publish(
+      AcademicDepartmentConstants.event_academic_department_deleted,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 
