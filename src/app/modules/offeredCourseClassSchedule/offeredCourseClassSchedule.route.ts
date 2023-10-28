@@ -23,6 +23,7 @@ router.get(
 router.post(
   '/',
   validateRequest(OfferedCourseClassScheduleValidation.create),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   OfferedCourseClassScheduleController.createOfferedCourseClassSchedule
 );
 
