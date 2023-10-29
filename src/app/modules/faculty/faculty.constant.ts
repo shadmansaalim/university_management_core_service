@@ -42,6 +42,9 @@ const myCoursesFilterableFields: string[] = [
   'offeredCourseSectionId',
 ];
 
+// Event name of publishing faculty created data in redis
+const event_faculty_created = 'faculty.created';
+
 export const FacultyConstants = {
   searchableFields,
   filterableFields,
@@ -49,4 +52,5 @@ export const FacultyConstants = {
   relationalFields,
   relationalFieldsMapper,
   myCoursesFilterableFields,
+  event_faculty_created,
 };
