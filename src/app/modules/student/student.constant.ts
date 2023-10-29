@@ -45,6 +45,9 @@ const myCoursesFilterableFields: string[] = ['courseId', 'academicSemesterId'];
 // Event name of publishing student created data in redis
 const event_student_created = 'student.created';
 
+// Event name of publishing student updated data in redis
+const event_student_updated = 'student.updated';
+
 export const StudentConstants = {
   searchableFields,
   filterableFields,
@@ -53,4 +56,5 @@ export const StudentConstants = {
   relationalFieldsMapper,
   myCoursesFilterableFields,
   event_student_created,
+  event_student_updated,
 };

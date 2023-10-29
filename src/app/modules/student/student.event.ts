@@ -13,6 +13,15 @@ const initStudentEvents = async () => {
       await StudentService.createStudentFromEvent(data);
     }
   );
+
+  // Update
+  await RedisClient.subscribe(
+    StudentConstants.event_student_updated,
+    async (event: string) => {
+      const data = JSON.parse(event);
+      await StudentService.updateStudentFromEvent(data);
+    }
+  );
 };
 
 export default initStudentEvents;
