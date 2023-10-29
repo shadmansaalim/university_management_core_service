@@ -64,7 +64,7 @@ model Student {
   firstName String
   middleName String
   lastName String
-  profileImage String
+  profileImage String?
   email String
   contactNo String
   gender String
