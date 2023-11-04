@@ -1,5 +1,5 @@
-// Prerequisite course type
-export type IPrerequisiteCourse = {
+// Course Prerequisite type
+export type ICoursePrerequisite = {
   courseId: string;
   isDeleted?: null;
 };
@@ -9,7 +9,7 @@ export type ICourseCreateData = {
   title: string;
   code: string;
   credits: number;
-  preRequisiteCourses: IPrerequisiteCourse[];
+  coursePreRequisites: ICoursePrerequisite[];
 };
 
 // Course Filters Type

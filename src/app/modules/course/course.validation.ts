@@ -13,7 +13,7 @@ const create = z.object({
     credits: z.number({
       required_error: 'Credits is required',
     }),
-    preRequisiteCourses: z
+    coursePreRequisites: z
       .array(
         z.object({
           courseId: z.string({}),
@@ -29,7 +29,7 @@ const update = z.object({
     title: z.string().optional(),
     code: z.string().optional(),
     credits: z.number().optional(),
-    preRequisiteCourses: z
+    coursePreRequisites: z
       .array(
         z.object({
           courseId: z.string({}),

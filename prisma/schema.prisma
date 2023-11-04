@@ -62,7 +62,7 @@ model Student {
   id String @id @default(uuid())
   studentId String
   firstName String
-  middleName String
+  middleName String?
   lastName String
   profileImage String?
   email String
@@ -96,7 +96,7 @@ model Faculty {
   id String @id @default(uuid())
   facultyId String
   firstName String
-  middleName String
+  middleName String?
   lastName String
   profileImage String?
   email String

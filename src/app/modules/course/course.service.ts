@@ -11,7 +11,7 @@ import { CourseConstants } from './course.constant';
 import {
   ICourseCreateData,
   ICourseFilters,
-  IPrerequisiteCourse,
+  ICoursePrerequisite,
 } from './course.interface';
 
 // Create Course Function
@@ -19,7 +19,7 @@ const createCourse = async (
   data: ICourseCreateData
 ): Promise<Course | null> => {
   // Destructuring
-  const { preRequisiteCourses, ...courseData } = data;
+  const { coursePreRequisites, ...courseData } = data;
 
   // Implementing transaction and rollback to make the operation efficient
   const newCourse = await prisma.$transaction(async transactionClient => {
@@ -32,14 +32,14 @@ const createCourse = async (
     }
 
     // Checking if there are any pre-requisites for this new course
-    if (preRequisiteCourses && preRequisiteCourses.length) {
+    if (coursePreRequisites && coursePreRequisites.length) {
       await asyncForEach(
-        preRequisiteCourses,
-        async (preRequisiteCourse: IPrerequisiteCourse) => {
+        coursePreRequisites,
+        async (coursePreRequisite: ICoursePrerequisite) => {
           await transactionClient.courseToPrerequisite.create({
             data: {
               courseId: result.id,
-              preRequisiteId: preRequisiteCourse.courseId,
+              preRequisiteId: coursePreRequisite.courseId,
             },
           });
         }
@@ -188,7 +188,7 @@ const updateSingleCourse = async (
   payload: Partial<ICourseCreateData>
 ): Promise<Course | null> => {
   // Destructuring
-  const { preRequisiteCourses, ...courseData } = payload;
+  const { coursePreRequisites, ...courseData } = payload;
 
   // Transaction and Rollback
   await prisma.$transaction(async transactionClient => {
@@ -206,23 +206,23 @@ const updateSingleCourse = async (
     }
 
     // Checking if there are any pre-requisites for this course
-    if (preRequisiteCourses && preRequisiteCourses.length) {
+    if (coursePreRequisites && coursePreRequisites.length) {
       // Storing the pre-requisite courses that needs to be deleted
-      const prerequisitesToDelete = preRequisiteCourses.filter(
-        preRequisiteCourse =>
-          preRequisiteCourse.courseId && preRequisiteCourse.isDeleted
+      const prerequisitesToDelete = coursePreRequisites.filter(
+        coursePreRequisite =>
+          coursePreRequisite.courseId && coursePreRequisite.isDeleted
       );
 
       // Storing new prerequisites
-      const newPrerequisites = preRequisiteCourses.filter(
-        preRequisiteCourse =>
-          preRequisiteCourse.courseId && !preRequisiteCourse.isDeleted
+      const newPrerequisites = coursePreRequisites.filter(
+        coursePreRequisite =>
+          coursePreRequisite.courseId && !coursePreRequisite.isDeleted
       );
 
       // Iterating and deleting prerequisites that needs to be removed
       await asyncForEach(
         prerequisitesToDelete,
-        async (deletePrerequisite: IPrerequisiteCourse) => {
+        async (deletePrerequisite: ICoursePrerequisite) => {
           await transactionClient.courseToPrerequisite.deleteMany({
             where: {
               AND: [
@@ -241,7 +241,7 @@ const updateSingleCourse = async (
       // Iterating and adding new prerequisites that needs to be added
       await asyncForEach(
         newPrerequisites,
-        async (newPrerequisite: IPrerequisiteCourse) => {
+        async (newPrerequisite: ICoursePrerequisite) => {
           await transactionClient.courseToPrerequisite.create({
             data: {
               courseId: id,
