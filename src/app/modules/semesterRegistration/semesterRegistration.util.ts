@@ -1,7 +1,7 @@
 const getAvailableCourses = (
   offeredCourses: any,
   studentCompletedCourses: any,
-  studentCurrentlyTakanCourses: any
+  studentCurrentlyTakenCourses: any
 ) => {
   const completedCoursesId = studentCompletedCourses.map(
     (course: any) => course.courseId
@@ -26,7 +26,7 @@ const getAvailableCourses = (
       }
     })
     .map((course: any) => {
-      const isAlreadyTakenCourse = studentCurrentlyTakanCourses.find(
+      const isAlreadyTakenCourse = studentCurrentlyTakenCourses.find(
         (c: any) => c.offeredCourseId === course.id
       );
 

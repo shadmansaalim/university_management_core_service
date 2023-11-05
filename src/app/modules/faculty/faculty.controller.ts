@@ -184,7 +184,7 @@ const getMyCourseStudents = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'My course students retrieved successfully.',
-    data: result,
+    data: result.data,
   });
 });
 

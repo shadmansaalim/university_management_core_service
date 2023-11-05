@@ -6,41 +6,6 @@
     "auditLog": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/.6877a92a953d52ea0f18a62aed898c6f02983456-audit.json",
     "files": [
         {
-            "date": 1697885906370,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-21-10-21-error.log",
-            "hash": "89ba0b04b89bd6ac49cf12f03224d99ef41e3571a2c550a051170e0b30f187ac"
-        },
-        {
-            "date": 1697886485497,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-21-10-22-error.log",
-            "hash": "ddfbae47cb70b2940de833c72f4360bdb5a74c39bd9b723861890f337705818b"
-        },
-        {
-            "date": 1697889790331,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-21-10-23-error.log",
-            "hash": "01ba6221a54c18665cee926e97edeed70dd78a1876dfd21f4da26c6a5288f146"
-        },
-        {
-            "date": 1697947576637,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-22-10-15-error.log",
-            "hash": "ba0e1859b4a6fa3cfda857392d9497d4b76a2f3275e0d0f000fd868fae8c7be9"
-        },
-        {
-            "date": 1697966740508,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-22-10-20-error.log",
-            "hash": "49c2443524caff0af088ba6f8c9a0c25f413beee01c4af6ebd55d9ba7eb9664f"
-        },
-        {
-            "date": 1697968878609,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-22-10-21-error.log",
-            "hash": "7cf36c7ace4ba8dd37341523e6b3b5ef910a53ebfb5ae708f90168b5ad78cd51"
-        },
-        {
-            "date": 1697972406749,
-            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-22-10-22-error.log",
-            "hash": "e48c6106c35ffc77e2def095c33cbc93dbdbb652f4579972852c90ab2e87493b"
-        },
-        {
             "date": 1698233370146,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-25-10-22-error.log",
             "hash": "579f5e896476cfaa2f6d1816604f6765f5bb09fb364acf62d91cbe0cbc73641b"
@@ -144,6 +109,46 @@
             "date": 1699078488446,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-04-11-17-error.log",
             "hash": "0f3d6d884369301f8b5bad1734fc24075b39d5a0d5964a8ab106c4c0761385de"
+        },
+        {
+            "date": 1699085059265,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-04-11-19-error.log",
+            "hash": "cf7cf2d3c611f962703debc7d7068e75cf80b82de728a32cd54764154caaa0ec"
+        },
+        {
+            "date": 1699090443653,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-04-11-20-error.log",
+            "hash": "bfd0c7e1f8b28f4c1e0a607749884cdbff41bcae91fd40539fec4439813408ce"
+        },
+        {
+            "date": 1699093411424,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-04-11-21-error.log",
+            "hash": "30a8903e0219807776ca41f87f6d528b51802a92c23e95a274800a830d37e28d"
+        },
+        {
+            "date": 1699168514742,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-05-11-18-error.log",
+            "hash": "7485055e430bbfad6df5d67d6dca240eceb460886bd56b95504c846d5666cd4e"
+        },
+        {
+            "date": 1699172246457,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-05-11-19-error.log",
+            "hash": "f84bae2a23df13800e54ad8999d6e3944db7ad1be3906a39385345eded5ffe43"
+        },
+        {
+            "date": 1699180048520,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-05-11-21-error.log",
+            "hash": "0b701248bf3ad75e0cf006d37702b6df218e81f3c2ef0c47a09ac12f060dc801"
+        },
+        {
+            "date": 1699182028540,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-05-11-22-error.log",
+            "hash": "c3884866c513d1fe57318005e99a25fad0326ca87304d2b34dc97abea9cffbca"
+        },
+        {
+            "date": 1699185627660,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-core-service/logs/winston/errors/UM-2023-05-11-23-error.log",
+            "hash": "e6919aec269b2f0db630ef4e28d3d4d23af63796ff54deb42d12014e8d0cf825"
         }
     ],
     "hashType": "sha256"

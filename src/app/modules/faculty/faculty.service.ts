@@ -277,11 +277,6 @@ const getMyCourseStudents = async (
         offeredCourse: {
           course: {
             id: filter.courseId,
-            faculties: {
-              some: {
-                facultyId: faculty.id,
-              },
-            },
           },
         },
         offeredCourseSection: {
