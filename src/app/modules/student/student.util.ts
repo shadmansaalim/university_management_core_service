@@ -17,6 +17,7 @@ const groupByAcademicSemester = (data: any) => {
         grade: course.grade,
         point: course.point,
         totalMarks: course.totalMarks,
+        status: course.status,
         course: course.course,
       });
     } else {
@@ -32,6 +33,7 @@ const groupByAcademicSemester = (data: any) => {
             grade: course.grade,
             point: course.point,
             totalMarks: course.totalMarks,
+            status: course.status,
             course: course.course,
           },
         ],
