@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-bookworm-slim
 
 WORKDIR /app
 
@@ -8,10 +8,8 @@ RUN yarn install
 
 COPY . .
 
-# Generate Prisma Client
 RUN npx prisma generate
 
-# Build TypeScript
 RUN yarn build
 
 EXPOSE 3002
