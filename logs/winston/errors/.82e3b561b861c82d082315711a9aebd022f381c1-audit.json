@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/saalimshadman/university-management/university-management-core-service/logs/winston/errors/.82e3b561b861c82d082315711a9aebd022f381c1-audit.json",
+    "files": [
+        {
+            "date": 1784772948575,
+            "name": "/Users/saalimshadman/university-management/university-management-core-service/logs/winston/errors/UM-2026-23-07-08-error.log",
+            "hash": "ba189741d4948a4830c48d77f51def2480a4f3c8c8e16eab2b7cb2c7775d57e1"
+        },
+        {
+            "date": 1784792640985,
+            "name": "/Users/saalimshadman/university-management/university-management-core-service/logs/winston/errors/UM-2026-23-07-13-error.log",
+            "hash": "d68095c8ee52f1bad2df63b0067722769c7a7ce41536c0d211c99b8e8be01795"
+        }
+    ],
+    "hashType": "sha256"
+}
